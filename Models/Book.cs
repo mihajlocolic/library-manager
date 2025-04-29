@@ -1,12 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LibraryManager.Models
+﻿namespace LibraryManager.Models
 {
     internal class Book
     {
+
+        enum BookStatus
+        {
+            Borrowed,
+            Available
+        }
+
+        private long id {  get; set; }
+        private string title {  get; set; }
+        private string author {  get; set; }
+        private string genre {  get; set; }
+        private BookStatus status {  get; set; }
+        private int? borrowerId {  get; set; }
     }
 }

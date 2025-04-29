@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace LibraryManager.Models
+﻿namespace LibraryManager.Models
 {
     internal class Member
     {
+        private long id { get; set; }
+        private string firstName { get; set; }
+        private string lastName {  get; set; }
+        private string phoneNumber {  get; set; }
     }
 }
