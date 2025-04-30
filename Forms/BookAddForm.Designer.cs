@@ -36,6 +36,7 @@
             bookGenreLabel = new Label();
             addBookBtn = new Button();
             cancelAddBtn = new Button();
+            bookAddErrorLabel = new Label();
             SuspendLayout();
             // 
             // bookTitleText
@@ -110,11 +111,21 @@
             cancelAddBtn.UseVisualStyleBackColor = true;
             cancelAddBtn.Click += cancelAddBtn_Click;
             // 
+            // bookAddErrorLabel
+            // 
+            bookAddErrorLabel.AutoSize = true;
+            bookAddErrorLabel.ForeColor = Color.Red;
+            bookAddErrorLabel.Location = new Point(156, 376);
+            bookAddErrorLabel.Name = "bookAddErrorLabel";
+            bookAddErrorLabel.Size = new Size(0, 25);
+            bookAddErrorLabel.TabIndex = 8;
+            // 
             // BookAddForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(474, 566);
+            Controls.Add(bookAddErrorLabel);
             Controls.Add(cancelAddBtn);
             Controls.Add(addBookBtn);
             Controls.Add(bookGenreLabel);
@@ -125,7 +136,7 @@
             Controls.Add(bookTitleText);
             Name = "BookAddForm";
             Text = "Form2";
-            Load += Form2_Load;
+            Load += BookAddForm_Load;
             ResumeLayout(false);
             PerformLayout();
         }
@@ -140,5 +151,6 @@
         private Label bookGenreLabel;
         private Button addBookBtn;
         private Button cancelAddBtn;
+        private Label bookAddErrorLabel;
     }
 }

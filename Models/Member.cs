@@ -2,9 +2,9 @@
 {
     internal class Member
     {
-        private long id { get; set; }
-        private string firstName { get; set; }
-        private string lastName {  get; set; }
-        private string phoneNumber {  get; set; }
+        public long id { get; set; }
+        public string firstName { get; set; }
+        public string lastName {  get; set; }
+        public string phoneNumber {  get; set; }
     }
 }

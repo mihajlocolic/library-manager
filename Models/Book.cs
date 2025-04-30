@@ -3,17 +3,27 @@
     internal class Book
     {
 
-        enum BookStatus
+        public enum BookStatus
         {
             Borrowed,
             Available
         }
 
-        private long id {  get; set; }
-        private string title {  get; set; }
-        private string author {  get; set; }
-        private string genre {  get; set; }
-        private BookStatus status {  get; set; }
-        private int? borrowerId {  get; set; }
+        public long id {  get; set; }
+        public string title {  get; set; }
+        public string author {  get; set; }
+        public string genre {  get; set; }
+        public BookStatus Status {  get; set; }
+        public int? borrowerId {  get; set; }
+
+        public Book() { }
+
+        public Book(long id, string title, string author, string genre)
+        {
+            this.id = id;
+            this.title = title;
+            this.author = author;
+            this.genre = genre;
+        }
     }
 }
