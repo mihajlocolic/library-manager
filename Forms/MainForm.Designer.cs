@@ -76,12 +76,11 @@
             // 
             bookTitleLabel.AutoSize = true;
             bookTitleLabel.Font = new Font("Segoe UI", 9F);
-            bookTitleLabel.Location = new Point(296, 3);
+            bookTitleLabel.Location = new Point(287, 3);
             bookTitleLabel.Name = "bookTitleLabel";
             bookTitleLabel.Size = new Size(44, 25);
             bookTitleLabel.TabIndex = 2;
             bookTitleLabel.Text = "Title";
-            
             // 
             // bookAuthorLabel
             // 
@@ -114,11 +113,11 @@
             // 
             tabControl.Controls.Add(tabPage1);
             tabControl.Controls.Add(tabPage2);
-            tabControl.Location = new Point(12, 12);
+            tabControl.Location = new Point(-3, 0);
             tabControl.Name = "tabControl";
             tabControl.RightToLeft = RightToLeft.No;
             tabControl.SelectedIndex = 0;
-            tabControl.Size = new Size(1187, 662);
+            tabControl.Size = new Size(1217, 674);
             tabControl.TabIndex = 6;
             // 
             // tabPage1
@@ -136,7 +135,7 @@
             tabPage1.Location = new Point(4, 34);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
-            tabPage1.Size = new Size(1179, 624);
+            tabPage1.Size = new Size(1209, 636);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Books";
             tabPage1.UseVisualStyleBackColor = true;
@@ -167,7 +166,7 @@
             exitButton.TabIndex = 7;
             exitButton.Text = "Exit";
             exitButton.UseVisualStyleBackColor = true;
-            exitButton.Click += this.exitButton_Click;
+            exitButton.Click += exitButton_Click;
             // 
             // addBookBtn
             // 
@@ -184,7 +183,7 @@
             tabPage2.Location = new Point(4, 34);
             tabPage2.Name = "tabPage2";
             tabPage2.Padding = new Padding(3);
-            tabPage2.Size = new Size(1179, 624);
+            tabPage2.Size = new Size(1209, 636);
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Members";
             tabPage2.UseVisualStyleBackColor = true;
