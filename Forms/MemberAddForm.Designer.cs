@@ -33,9 +33,10 @@
             memberPhoneLabel = new Label();
             memberLastNameLabel = new Label();
             memberFirstNameLabel = new Label();
-            bookGenreText = new TextBox();
-            bookAuthorText = new TextBox();
-            bookTitleText = new TextBox();
+            memberPhoneNumber = new TextBox();
+            memberLastName = new TextBox();
+            memberFirstName = new TextBox();
+            memberAddErrorLabel = new Label();
             SuspendLayout();
             // 
             // cancelAddBtn
@@ -55,12 +56,13 @@
             addBookBtn.TabIndex = 14;
             addBookBtn.Text = "Add";
             addBookBtn.UseVisualStyleBackColor = true;
+            addBookBtn.Click += addMemberBtn_Click;
             // 
             // memberPhoneLabel
             // 
             memberPhoneLabel.AutoSize = true;
             memberPhoneLabel.Font = new Font("Segoe UI", 12F);
-            memberPhoneLabel.Location = new Point(30, 294);
+            memberPhoneLabel.Location = new Point(30, 295);
             memberPhoneLabel.Name = "memberPhoneLabel";
             memberPhoneLabel.Size = new Size(177, 32);
             memberPhoneLabel.TabIndex = 13;
@@ -86,42 +88,52 @@
             memberFirstNameLabel.TabIndex = 11;
             memberFirstNameLabel.Text = "First Name";
             // 
-            // bookGenreText
+            // memberPhoneNumber
             // 
-            bookGenreText.Location = new Point(180, 295);
-            bookGenreText.Name = "bookGenreText";
-            bookGenreText.Size = new Size(315, 31);
-            bookGenreText.TabIndex = 10;
+            memberPhoneNumber.Location = new Point(234, 298);
+            memberPhoneNumber.Name = "memberPhoneNumber";
+            memberPhoneNumber.Size = new Size(315, 31);
+            memberPhoneNumber.TabIndex = 10;
             // 
-            // bookAuthorText
+            // memberLastName
             // 
-            bookAuthorText.Location = new Point(180, 179);
-            bookAuthorText.Name = "bookAuthorText";
-            bookAuthorText.Size = new Size(315, 31);
-            bookAuthorText.TabIndex = 9;
+            memberLastName.Location = new Point(234, 179);
+            memberLastName.Name = "memberLastName";
+            memberLastName.Size = new Size(315, 31);
+            memberLastName.TabIndex = 9;
             // 
-            // bookTitleText
+            // memberFirstName
             // 
-            bookTitleText.Location = new Point(180, 63);
-            bookTitleText.Name = "bookTitleText";
-            bookTitleText.Size = new Size(315, 31);
-            bookTitleText.TabIndex = 8;
+            memberFirstName.Location = new Point(234, 63);
+            memberFirstName.Name = "memberFirstName";
+            memberFirstName.Size = new Size(315, 31);
+            memberFirstName.TabIndex = 8;
+            // 
+            // memberAddErrorLabel
+            // 
+            memberAddErrorLabel.AutoSize = true;
+            memberAddErrorLabel.ForeColor = Color.Red;
+            memberAddErrorLabel.Location = new Point(223, 371);
+            memberAddErrorLabel.Name = "memberAddErrorLabel";
+            memberAddErrorLabel.Size = new Size(0, 25);
+            memberAddErrorLabel.TabIndex = 16;
             // 
             // MemberAddForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(576, 557);
+            Controls.Add(memberAddErrorLabel);
             Controls.Add(cancelAddBtn);
             Controls.Add(addBookBtn);
             Controls.Add(memberPhoneLabel);
             Controls.Add(memberLastNameLabel);
             Controls.Add(memberFirstNameLabel);
-            Controls.Add(bookGenreText);
-            Controls.Add(bookAuthorText);
-            Controls.Add(bookTitleText);
+            Controls.Add(memberPhoneNumber);
+            Controls.Add(memberLastName);
+            Controls.Add(memberFirstName);
             Name = "MemberAddForm";
-            Text = "Form1";
+            Text = "Add Member";
             ResumeLayout(false);
             PerformLayout();
         }
@@ -133,8 +145,9 @@
         private Label memberPhoneLabel;
         private Label memberLastNameLabel;
         private Label memberFirstNameLabel;
-        private TextBox bookGenreText;
-        private TextBox bookAuthorText;
-        private TextBox bookTitleText;
+        private TextBox memberPhoneNumber;
+        private TextBox memberLastName;
+        private TextBox memberFirstName;
+        private Label memberAddErrorLabel;
     }
 }

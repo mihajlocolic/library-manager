@@ -45,10 +45,22 @@ namespace LibraryManager
             bookAddForm.ShowDialog();
         }
 
-        private void exitButton_Click(object sender, EventArgs e)
+        private void exitBtnBooks_Click(object sender, EventArgs e)
         {
             Close();
         }
 
+        private void addMemberBtn_Click(object sender, EventArgs e)
+        {
+            MemberAddForm memberAddForm = new MemberAddForm();
+            memberAddForm.ShowDialog();
+        }
+
+        private void exitBtnMembers_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        
     }
 }

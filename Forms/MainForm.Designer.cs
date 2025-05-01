@@ -37,19 +37,19 @@
             bookStatusLabel = new Label();
             tabControl = new TabControl();
             tabPage1 = new TabPage();
+            removeBookBtn = new Button();
             label1 = new Label();
-            exitButton = new Button();
+            exitBtnBooks = new Button();
             addBookBtn = new Button();
             tabPage2 = new TabPage();
-            addMemberBtn = new Button();
-            tableLayoutPanel2 = new TableLayoutPanel();
-            memberIdLabel = new Label();
-            memberFirstNameLabel = new Label();
-            memberLastNameLabel = new Label();
-            memberPhoneLabel = new Label();
+            exitBtnMembers = new Button();
             removeMemberBtn = new Button();
-            exitBtn = new Button();
-            removeBookBtn = new Button();
+            memberPhoneLabel = new Label();
+            memberLastNameLabel = new Label();
+            memberFirstNameLabel = new Label();
+            memberIdLabel = new Label();
+            tableLayoutPanel2 = new TableLayoutPanel();
+            addMemberBtn = new Button();
             tabControl.SuspendLayout();
             tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
@@ -133,7 +133,7 @@
             // 
             tabPage1.Controls.Add(removeBookBtn);
             tabPage1.Controls.Add(label1);
-            tabPage1.Controls.Add(exitButton);
+            tabPage1.Controls.Add(exitBtnBooks);
             tabPage1.Controls.Add(addBookBtn);
             tabPage1.Controls.Add(tableLayoutPanel1);
             tabPage1.Controls.Add(bookStatusLabel);
@@ -149,6 +149,15 @@
             tabPage1.Text = "Books";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // removeBookBtn
+            // 
+            removeBookBtn.Location = new Point(248, 550);
+            removeBookBtn.Name = "removeBookBtn";
+            removeBookBtn.Size = new Size(157, 48);
+            removeBookBtn.TabIndex = 9;
+            removeBookBtn.Text = "Remove";
+            removeBookBtn.UseVisualStyleBackColor = true;
+            // 
             // label1
             // 
             label1.AutoSize = true;
@@ -157,15 +166,15 @@
             label1.Size = new Size(0, 25);
             label1.TabIndex = 8;
             // 
-            // exitButton
+            // exitBtnBooks
             // 
-            exitButton.Location = new Point(993, 550);
-            exitButton.Name = "exitButton";
-            exitButton.Size = new Size(157, 48);
-            exitButton.TabIndex = 7;
-            exitButton.Text = "Exit";
-            exitButton.UseVisualStyleBackColor = true;
-            exitButton.Click += exitButton_Click;
+            exitBtnBooks.Location = new Point(993, 550);
+            exitBtnBooks.Name = "exitBtnBooks";
+            exitBtnBooks.Size = new Size(157, 48);
+            exitBtnBooks.TabIndex = 7;
+            exitBtnBooks.Text = "Exit";
+            exitBtnBooks.UseVisualStyleBackColor = true;
+            exitBtnBooks.Click += exitBtnBooks_Click;
             // 
             // addBookBtn
             // 
@@ -179,7 +188,7 @@
             // 
             // tabPage2
             // 
-            tabPage2.Controls.Add(exitBtn);
+            tabPage2.Controls.Add(exitBtnMembers);
             tabPage2.Controls.Add(removeMemberBtn);
             tabPage2.Controls.Add(memberPhoneLabel);
             tabPage2.Controls.Add(memberLastNameLabel);
@@ -195,14 +204,60 @@
             tabPage2.Text = "Members";
             tabPage2.UseVisualStyleBackColor = true;
             // 
-            // addMemberBtn
+            // exitBtnMembers
             // 
-            addMemberBtn.Location = new Point(41, 545);
-            addMemberBtn.Name = "addMemberBtn";
-            addMemberBtn.Size = new Size(151, 49);
-            addMemberBtn.TabIndex = 0;
-            addMemberBtn.Text = "Add";
-            addMemberBtn.UseVisualStyleBackColor = true;
+            exitBtnMembers.Location = new Point(1029, 545);
+            exitBtnMembers.Name = "exitBtnMembers";
+            exitBtnMembers.Size = new Size(151, 46);
+            exitBtnMembers.TabIndex = 7;
+            exitBtnMembers.Text = "Exit";
+            exitBtnMembers.UseVisualStyleBackColor = true;
+            exitBtnMembers.Click += exitBtnMembers_Click;
+            // 
+            // removeMemberBtn
+            // 
+            removeMemberBtn.Location = new Point(243, 545);
+            removeMemberBtn.Name = "removeMemberBtn";
+            removeMemberBtn.Size = new Size(151, 49);
+            removeMemberBtn.TabIndex = 6;
+            removeMemberBtn.Text = "Remove";
+            removeMemberBtn.UseVisualStyleBackColor = true;
+            // 
+            // memberPhoneLabel
+            // 
+            memberPhoneLabel.AutoSize = true;
+            memberPhoneLabel.Location = new Point(988, 7);
+            memberPhoneLabel.Name = "memberPhoneLabel";
+            memberPhoneLabel.Size = new Size(132, 25);
+            memberPhoneLabel.TabIndex = 5;
+            memberPhoneLabel.Text = "Phone Number";
+            // 
+            // memberLastNameLabel
+            // 
+            memberLastNameLabel.AutoSize = true;
+            memberLastNameLabel.Location = new Point(611, 7);
+            memberLastNameLabel.Name = "memberLastNameLabel";
+            memberLastNameLabel.Size = new Size(95, 25);
+            memberLastNameLabel.TabIndex = 4;
+            memberLastNameLabel.Text = "Last Name";
+            // 
+            // memberFirstNameLabel
+            // 
+            memberFirstNameLabel.AutoSize = true;
+            memberFirstNameLabel.Location = new Point(188, 7);
+            memberFirstNameLabel.Name = "memberFirstNameLabel";
+            memberFirstNameLabel.Size = new Size(97, 25);
+            memberFirstNameLabel.TabIndex = 3;
+            memberFirstNameLabel.Text = "First Name";
+            // 
+            // memberIdLabel
+            // 
+            memberIdLabel.AutoSize = true;
+            memberIdLabel.Location = new Point(11, 7);
+            memberIdLabel.Name = "memberIdLabel";
+            memberIdLabel.Size = new Size(28, 25);
+            memberIdLabel.TabIndex = 2;
+            memberIdLabel.Text = "Id";
             // 
             // tableLayoutPanel2
             // 
@@ -219,68 +274,15 @@
             tableLayoutPanel2.Size = new Size(1210, 454);
             tableLayoutPanel2.TabIndex = 1;
             // 
-            // memberIdLabel
+            // addMemberBtn
             // 
-            memberIdLabel.AutoSize = true;
-            memberIdLabel.Location = new Point(11, 7);
-            memberIdLabel.Name = "memberIdLabel";
-            memberIdLabel.Size = new Size(28, 25);
-            memberIdLabel.TabIndex = 2;
-            memberIdLabel.Text = "Id";
-            // 
-            // memberFirstNameLabel
-            // 
-            memberFirstNameLabel.AutoSize = true;
-            memberFirstNameLabel.Location = new Point(188, 7);
-            memberFirstNameLabel.Name = "memberFirstNameLabel";
-            memberFirstNameLabel.Size = new Size(97, 25);
-            memberFirstNameLabel.TabIndex = 3;
-            memberFirstNameLabel.Text = "First Name";
-            // 
-            // memberLastNameLabel
-            // 
-            memberLastNameLabel.AutoSize = true;
-            memberLastNameLabel.Location = new Point(611, 7);
-            memberLastNameLabel.Name = "memberLastNameLabel";
-            memberLastNameLabel.Size = new Size(95, 25);
-            memberLastNameLabel.TabIndex = 4;
-            memberLastNameLabel.Text = "Last Name";
-            // 
-            // memberPhoneLabel
-            // 
-            memberPhoneLabel.AutoSize = true;
-            memberPhoneLabel.Location = new Point(988, 7);
-            memberPhoneLabel.Name = "memberPhoneLabel";
-            memberPhoneLabel.Size = new Size(132, 25);
-            memberPhoneLabel.TabIndex = 5;
-            memberPhoneLabel.Text = "Phone Number";
-            // 
-            // removeMemberBtn
-            // 
-            removeMemberBtn.Location = new Point(243, 545);
-            removeMemberBtn.Name = "removeMemberBtn";
-            removeMemberBtn.Size = new Size(151, 49);
-            removeMemberBtn.TabIndex = 6;
-            removeMemberBtn.Text = "Remove";
-            removeMemberBtn.UseVisualStyleBackColor = true;
-            // 
-            // exitBtn
-            // 
-            exitBtn.Location = new Point(1029, 545);
-            exitBtn.Name = "exitBtn";
-            exitBtn.Size = new Size(151, 46);
-            exitBtn.TabIndex = 7;
-            exitBtn.Text = "Exit";
-            exitBtn.UseVisualStyleBackColor = true;
-            // 
-            // removeBookBtn
-            // 
-            removeBookBtn.Location = new Point(248, 550);
-            removeBookBtn.Name = "removeBookBtn";
-            removeBookBtn.Size = new Size(157, 48);
-            removeBookBtn.TabIndex = 9;
-            removeBookBtn.Text = "Remove";
-            removeBookBtn.UseVisualStyleBackColor = true;
+            addMemberBtn.Location = new Point(41, 545);
+            addMemberBtn.Name = "addMemberBtn";
+            addMemberBtn.Size = new Size(151, 49);
+            addMemberBtn.TabIndex = 0;
+            addMemberBtn.Text = "Add";
+            addMemberBtn.UseVisualStyleBackColor = true;
+            addMemberBtn.Click += addMemberBtn_Click;
             // 
             // MainForm
             // 
@@ -313,7 +315,7 @@
         private TabControl tabControl;
         private TabPage tabPage1;
         private TabPage tabPage2;
-        private Button exitButton;
+        private Button exitBtnBooks;
         private Button addBookBtn;
         private Label label1;
         private Button addMemberBtn;
@@ -324,6 +326,6 @@
         private Label memberPhoneLabel;
         private Label memberLastNameLabel;
         private Button removeBookBtn;
-        private Button exitBtn;
+        private Button exitBtnMembers;
     }
 }

@@ -56,21 +56,9 @@ namespace LibraryManager.Forms
                     Book tmp = new(1, bookTitleText.Text, bookAuthorText.Text, bookGenreText.Text);
                     books.Add(tmp);
                 }
+
+                SaveBooks();
                 
-                if (File.Exists("books.json"))
-                {
-                    using (StreamWriter sw = new StreamWriter("books.json"))
-                    {
-                        string json = JsonSerializer.Serialize(books);
-                        sw.WriteLine(json);
-                     
-                    }
-                    Close(); // Closing the form once the book is added and saved.
-                }
-                else
-                {
-                    Console.WriteLine("Error: JSON file missing. Cannot save.");
-                }
             }
             else
             {
@@ -80,6 +68,24 @@ namespace LibraryManager.Forms
 
             private void cancelAddBtn_Click(Object sender, EventArgs e) {
                 Close();
+            }
+
+            private void SaveBooks()
+            {
+                if (File.Exists("books.json"))
+                {
+                    using (StreamWriter sw = new StreamWriter("books.json"))
+                    {
+                        string json = JsonSerializer.Serialize(books);
+                        sw.WriteLine(json);
+
+                    }
+                    Close(); // Closing the form once the book is added and saved.
+                }
+                else
+                {
+                    Console.WriteLine("Error: JSON file missing. Cannot save.");
+                }
             }
     }
 }
