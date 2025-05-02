@@ -1,4 +1,9 @@
-﻿namespace LibraryManager
+﻿using System.ComponentModel;
+using System.Data.Common;
+using System.Text.Json;
+using LibraryManager.Models;
+
+namespace LibraryManager
 {
     partial class MainForm
     {
@@ -29,14 +34,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            tableLayoutPanel1 = new TableLayoutPanel();
-            bookIdLabel = new Label();
-            bookTitleLabel = new Label();
-            bookAuthorLabel = new Label();
-            bookGenreLabel = new Label();
-            bookStatusLabel = new Label();
             tabControl = new TabControl();
             tabPage1 = new TabPage();
+            dataGridView1 = new DataGridView();
             removeBookBtn = new Button();
             label1 = new Label();
             exitBtnBooks = new Button();
@@ -44,79 +44,17 @@
             tabPage2 = new TabPage();
             exitBtnMembers = new Button();
             removeMemberBtn = new Button();
-            memberPhoneLabel = new Label();
-            memberLastNameLabel = new Label();
-            memberFirstNameLabel = new Label();
-            memberIdLabel = new Label();
-            tableLayoutPanel2 = new TableLayoutPanel();
             addMemberBtn = new Button();
+            bookStatus = new DataGridViewTextBoxColumn();
+            bookGenre = new DataGridViewTextBoxColumn();
+            bookAuthor = new DataGridViewTextBoxColumn();
+            bookTitle = new DataGridViewTextBoxColumn();
+            bookId = new DataGridViewTextBoxColumn();
             tabControl.SuspendLayout();
             tabPage1.SuspendLayout();
+            ((ISupportInitialize)dataGridView1).BeginInit();
             tabPage2.SuspendLayout();
             SuspendLayout();
-            // 
-            // tableLayoutPanel1
-            // 
-            tableLayoutPanel1.ColumnCount = 5;
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 13.8817482F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 86.1182556F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 335F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 130F));
-            tableLayoutPanel1.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 134F));
-            tableLayoutPanel1.Location = new Point(0, 39);
-            tableLayoutPanel1.Name = "tableLayoutPanel1";
-            tableLayoutPanel1.RowCount = 2;
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel1.Size = new Size(1209, 482);
-            tableLayoutPanel1.TabIndex = 0;
-            tableLayoutPanel1.Paint += tableLayoutPanel1_Paint_1;
-            // 
-            // bookIdLabel
-            // 
-            bookIdLabel.AutoSize = true;
-            bookIdLabel.Location = new Point(24, 11);
-            bookIdLabel.Name = "bookIdLabel";
-            bookIdLabel.Size = new Size(28, 25);
-            bookIdLabel.TabIndex = 1;
-            bookIdLabel.Text = "Id";
-            // 
-            // bookTitleLabel
-            // 
-            bookTitleLabel.AutoSize = true;
-            bookTitleLabel.Font = new Font("Segoe UI", 9F);
-            bookTitleLabel.Location = new Point(309, 11);
-            bookTitleLabel.Name = "bookTitleLabel";
-            bookTitleLabel.Size = new Size(44, 25);
-            bookTitleLabel.TabIndex = 2;
-            bookTitleLabel.Text = "Title";
-            // 
-            // bookAuthorLabel
-            // 
-            bookAuthorLabel.AutoSize = true;
-            bookAuthorLabel.Location = new Point(754, 11);
-            bookAuthorLabel.Name = "bookAuthorLabel";
-            bookAuthorLabel.Size = new Size(67, 25);
-            bookAuthorLabel.TabIndex = 3;
-            bookAuthorLabel.Text = "Author";
-            // 
-            // bookGenreLabel
-            // 
-            bookGenreLabel.AutoSize = true;
-            bookGenreLabel.Location = new Point(979, 11);
-            bookGenreLabel.Name = "bookGenreLabel";
-            bookGenreLabel.Size = new Size(58, 25);
-            bookGenreLabel.TabIndex = 4;
-            bookGenreLabel.Text = "Genre";
-            // 
-            // bookStatusLabel
-            // 
-            bookStatusLabel.AutoSize = true;
-            bookStatusLabel.Location = new Point(1114, 11);
-            bookStatusLabel.Name = "bookStatusLabel";
-            bookStatusLabel.Size = new Size(60, 25);
-            bookStatusLabel.TabIndex = 5;
-            bookStatusLabel.Text = "Status";
             // 
             // tabControl
             // 
@@ -131,16 +69,11 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(dataGridView1);
             tabPage1.Controls.Add(removeBookBtn);
             tabPage1.Controls.Add(label1);
             tabPage1.Controls.Add(exitBtnBooks);
             tabPage1.Controls.Add(addBookBtn);
-            tabPage1.Controls.Add(tableLayoutPanel1);
-            tabPage1.Controls.Add(bookStatusLabel);
-            tabPage1.Controls.Add(bookIdLabel);
-            tabPage1.Controls.Add(bookGenreLabel);
-            tabPage1.Controls.Add(bookTitleLabel);
-            tabPage1.Controls.Add(bookAuthorLabel);
             tabPage1.Location = new Point(4, 34);
             tabPage1.Name = "tabPage1";
             tabPage1.Padding = new Padding(3);
@@ -148,6 +81,17 @@
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Books";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AllowUserToOrderColumns = true;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(0, 3);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.RowHeadersWidth = 62;
+            dataGridView1.Size = new Size(1209, 504);
+            dataGridView1.TabIndex = 0;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // removeBookBtn
             // 
@@ -190,11 +134,6 @@
             // 
             tabPage2.Controls.Add(exitBtnMembers);
             tabPage2.Controls.Add(removeMemberBtn);
-            tabPage2.Controls.Add(memberPhoneLabel);
-            tabPage2.Controls.Add(memberLastNameLabel);
-            tabPage2.Controls.Add(memberFirstNameLabel);
-            tabPage2.Controls.Add(memberIdLabel);
-            tabPage2.Controls.Add(tableLayoutPanel2);
             tabPage2.Controls.Add(addMemberBtn);
             tabPage2.Location = new Point(4, 34);
             tabPage2.Name = "tabPage2";
@@ -223,57 +162,6 @@
             removeMemberBtn.Text = "Remove";
             removeMemberBtn.UseVisualStyleBackColor = true;
             // 
-            // memberPhoneLabel
-            // 
-            memberPhoneLabel.AutoSize = true;
-            memberPhoneLabel.Location = new Point(988, 7);
-            memberPhoneLabel.Name = "memberPhoneLabel";
-            memberPhoneLabel.Size = new Size(132, 25);
-            memberPhoneLabel.TabIndex = 5;
-            memberPhoneLabel.Text = "Phone Number";
-            // 
-            // memberLastNameLabel
-            // 
-            memberLastNameLabel.AutoSize = true;
-            memberLastNameLabel.Location = new Point(611, 7);
-            memberLastNameLabel.Name = "memberLastNameLabel";
-            memberLastNameLabel.Size = new Size(95, 25);
-            memberLastNameLabel.TabIndex = 4;
-            memberLastNameLabel.Text = "Last Name";
-            // 
-            // memberFirstNameLabel
-            // 
-            memberFirstNameLabel.AutoSize = true;
-            memberFirstNameLabel.Location = new Point(188, 7);
-            memberFirstNameLabel.Name = "memberFirstNameLabel";
-            memberFirstNameLabel.Size = new Size(97, 25);
-            memberFirstNameLabel.TabIndex = 3;
-            memberFirstNameLabel.Text = "First Name";
-            // 
-            // memberIdLabel
-            // 
-            memberIdLabel.AutoSize = true;
-            memberIdLabel.Location = new Point(11, 7);
-            memberIdLabel.Name = "memberIdLabel";
-            memberIdLabel.Size = new Size(28, 25);
-            memberIdLabel.TabIndex = 2;
-            memberIdLabel.Text = "Id";
-            // 
-            // tableLayoutPanel2
-            // 
-            tableLayoutPanel2.ColumnCount = 4;
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 10.217391F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 89.78261F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 378F));
-            tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 367F));
-            tableLayoutPanel2.Location = new Point(3, 35);
-            tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 2;
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 50F));
-            tableLayoutPanel2.Size = new Size(1210, 454);
-            tableLayoutPanel2.TabIndex = 1;
-            // 
             // addMemberBtn
             // 
             addMemberBtn.Location = new Point(41, 545);
@@ -283,6 +171,41 @@
             addMemberBtn.Text = "Add";
             addMemberBtn.UseVisualStyleBackColor = true;
             addMemberBtn.Click += addMemberBtn_Click;
+            // 
+            // bookStatus
+            // 
+            bookStatus.HeaderText = "Status";
+            bookStatus.MinimumWidth = 8;
+            bookStatus.Name = "bookStatus";
+            bookStatus.Width = 150;
+            // 
+            // bookGenre
+            // 
+            bookGenre.HeaderText = "Genre";
+            bookGenre.MinimumWidth = 8;
+            bookGenre.Name = "bookGenre";
+            bookGenre.Width = 150;
+            // 
+            // bookAuthor
+            // 
+            bookAuthor.HeaderText = "Author";
+            bookAuthor.MinimumWidth = 8;
+            bookAuthor.Name = "bookAuthor";
+            bookAuthor.Width = 150;
+            // 
+            // bookTitle
+            // 
+            bookTitle.HeaderText = "Title";
+            bookTitle.MinimumWidth = 8;
+            bookTitle.Name = "bookTitle";
+            bookTitle.Width = 150;
+            // 
+            // bookId
+            // 
+            bookId.HeaderText = "Id";
+            bookId.MinimumWidth = 8;
+            bookId.Name = "bookId";
+            bookId.Width = 150;
             // 
             // MainForm
             // 
@@ -299,19 +222,12 @@
             tabControl.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             tabPage1.PerformLayout();
+            ((ISupportInitialize)dataGridView1).EndInit();
             tabPage2.ResumeLayout(false);
-            tabPage2.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
-
-        private TableLayoutPanel tableLayoutPanel1;
-        private Label bookIdLabel;
-        private Label bookTitleLabel;
-        private Label bookAuthorLabel;
-        private Label bookGenreLabel;
-        private Label bookStatusLabel;
         private TabControl tabControl;
         private TabPage tabPage1;
         private TabPage tabPage2;
@@ -319,13 +235,14 @@
         private Button addBookBtn;
         private Label label1;
         private Button addMemberBtn;
-        private TableLayoutPanel tableLayoutPanel2;
-        private Label memberFirstNameLabel;
-        private Label memberIdLabel;
         private Button removeMemberBtn;
-        private Label memberPhoneLabel;
-        private Label memberLastNameLabel;
         private Button removeBookBtn;
         private Button exitBtnMembers;
+        private DataGridView dataGridView1;
+        private DataGridViewTextBoxColumn bookId;
+        private DataGridViewTextBoxColumn bookTitle;
+        private DataGridViewTextBoxColumn bookAuthor;
+        private DataGridViewTextBoxColumn bookGenre;
+        private DataGridViewTextBoxColumn bookStatus;
     }
 }
