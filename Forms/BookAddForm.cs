@@ -80,6 +80,7 @@ namespace LibraryManager.Forms
                         sw.WriteLine(json);
 
                     }
+                    
                     Close(); // Closing the form once the book is added and saved.
                 }
                 else

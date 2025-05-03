@@ -18,7 +18,7 @@ namespace LibraryManager
 
         }
 
-        
+
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -29,14 +29,14 @@ namespace LibraryManager
                 {
                     string tmp = reader.ReadToEnd();
                     books = JsonSerializer.Deserialize<List<Book>>(tmp);
-                 
+
                 }
 
                 LoadDataOnGridView();
-                
+
             }
 
-            
+
 
             FileInfo membersFile = new FileInfo("members.json");
             if (membersFile.Length > 0)
@@ -48,7 +48,7 @@ namespace LibraryManager
                 }
             }
 
-            
+
         }
 
 
@@ -101,7 +101,51 @@ namespace LibraryManager
 
         }
 
+      
+        private void dataGridView1_CellValueChanged_1(object sender, DataGridViewCellEventArgs e)
+        {
+            UpdateBooks();
+        }
 
+        private void UpdateBooks()
+        {
+            string title;
+            string author;
+            string genre;
+
+            for (int i = 1; i < (dataGridView1.Rows.Count - 1); i++)
+            {
+                title = dataGridView1.Rows[i].Cells["title"].Value.ToString();
+                author = dataGridView1.Rows[i].Cells["author"].Value.ToString();
+                genre = dataGridView1.Rows[i].Cells["genre"].Value.ToString();
+
+                Console.WriteLine(title);
+                Console.WriteLine(author);
+                Console.WriteLine(genre);
+
+                if (title.Length > 0 && author.Length > 0 && genre.Length > 0)
+                {
+                    books[i].title = title;
+                    books[i].author = author;
+                    books[i].genre = genre;
+                }
+            }
+
+            if (File.Exists("books.json"))
+            {
+                using (StreamWriter sw = new StreamWriter("books.json"))
+                {
+                    string json = JsonSerializer.Serialize(books);
+                    sw.WriteLine(json);
+
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("Error: JSON file missing. Cannot save.");
+            }
+        }
 
         private void LoadDataOnGridView()
         {
