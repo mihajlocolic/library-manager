@@ -5,8 +5,8 @@
 
         public enum BookStatus
         {
-            Borrowed,
-            Available
+            Available,
+            Borrowed
         }
 
         public long id {  get; set; }

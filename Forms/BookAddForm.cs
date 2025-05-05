@@ -82,6 +82,12 @@ namespace LibraryManager.Forms
                     }
                     
                     Close(); // Closing the form once the book is added and saved.
+                    Form parentForm = Application.OpenForms["Form1"];
+                    if (parentForm != null) {
+
+                        parentForm.Invalidate();
+                    }
+                    
                 }
                 else
                 {

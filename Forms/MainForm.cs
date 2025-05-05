@@ -11,6 +11,7 @@ namespace LibraryManager
 
         private List<Book> books = new List<Book>();
         private List<Member> members = new List<Member>();
+        public DataGridViewRow selectedBookRow;
 
         public MainForm()
         {
@@ -101,7 +102,7 @@ namespace LibraryManager
 
         }
 
-      
+
         private void dataGridView1_CellValueChanged_1(object sender, DataGridViewCellEventArgs e)
         {
             UpdateBooks();
@@ -161,6 +162,49 @@ namespace LibraryManager
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeRows = false;
+        }
+
+        private void removeBookBtn_Click(object sender, EventArgs e)
+        {
+            var selectedBookId = selectedBookRow.Cells[0].Value;
+            var foundBook = books.Find(x => x.title == selectedBookRow.Cells[1].Value.ToString());
+
+
+            if (long.Equals(selectedBookId, foundBook.id))
+            {
+                dataGridView1.Rows.RemoveAt(selectedBookRow.Index);
+                books.Remove(foundBook);
+    
+            } else
+            {
+                Console.WriteLine("Matching book not found in database.");
+            }
+
+                SaveBooksChanges();
+        }
+
+        private void SaveBooksChanges()
+        {
+            if (File.Exists("books.json"))
+            {
+                using (StreamWriter sw = new StreamWriter("books.json"))
+                {
+                    string json = JsonSerializer.Serialize(books);
+                    sw.WriteLine(json);
+
+                }
+            }
+            else
+            {
+                Console.WriteLine("Error: JSON file missing. Cannot save.");
+            }
+        }
+        
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            int index = e.RowIndex;
+            DataGridViewRow selectedRow = dataGridView1.Rows[index];
+            selectedBookRow = selectedRow;
         }
     }
 }

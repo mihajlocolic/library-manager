@@ -95,6 +95,7 @@ namespace LibraryManager
             dataGridView1.RowHeadersWidth = 62;
             dataGridView1.Size = new Size(1209, 504);
             dataGridView1.TabIndex = 0;
+            dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellValueChanged += dataGridView1_CellValueChanged_1;
             // 
@@ -106,6 +107,7 @@ namespace LibraryManager
             removeBookBtn.TabIndex = 9;
             removeBookBtn.Text = "Remove";
             removeBookBtn.UseVisualStyleBackColor = true;
+            removeBookBtn.Click += removeBookBtn_Click;
             // 
             // label1
             // 
