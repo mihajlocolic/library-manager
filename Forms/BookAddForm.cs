@@ -8,6 +8,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Forms.VisualStyles;
 using LibraryManager.Models;
 using static System.Reflection.Metadata.BlobBuilder;
 
@@ -15,10 +16,13 @@ namespace LibraryManager.Forms
 {
     public partial class BookAddForm : Form
     {
+        MainForm mainForm;
         List<Book> books = new List<Book>();
-        public BookAddForm()
+
+        public BookAddForm(MainForm mf)
         {
             InitializeComponent();
+            this.mainForm = mf;
         }
 
         private void label2_Click(object sender, EventArgs e)
@@ -38,6 +42,7 @@ namespace LibraryManager.Forms
                     books = JsonSerializer.Deserialize<List<Book>>(tmp);
                 }
             }
+           
         }
 
         private void addBookBtn_Click(object sender, EventArgs e)
@@ -46,25 +51,43 @@ namespace LibraryManager.Forms
 
             if (bookTitleText.Text.Length > 0 && bookAuthorText.Text.Length > 0 && bookGenreText.Text.Length > 0)
             {
-
+                Book tmp;
                 if (books.Count > 0) {
-                    Book tmp = new(books.Last().id + 1, bookTitleText.Text, bookAuthorText.Text, bookGenreText.Text);
+                    tmp = new(books.Last().id + 1, bookTitleText.Text, bookAuthorText.Text, bookGenreText.Text);
                     books.Add(tmp);
                 }
                 else
                 {
-                    Book tmp = new(1, bookTitleText.Text, bookAuthorText.Text, bookGenreText.Text);
+                    tmp = new(1, bookTitleText.Text, bookAuthorText.Text, bookGenreText.Text);
                     books.Add(tmp);
                 }
 
+                TextBox tb = new TextBox();
+                tb.Text = tmp.ToString();
+
                 SaveBooks();
-                
+                UpdateGridView();
+
             }
             else
             {
                 bookAddErrorLabel.Text = "All fields must be populated!";
             }
         }
+
+            private void UpdateGridView()
+            {
+
+                BindingSource source = new BindingSource();
+
+                foreach (Book b in books)
+                {
+                    source.Add(b);
+                }
+                mainForm.dataGridView1.DataSource = source;
+             
+
+            }
 
             private void cancelAddBtn_Click(Object sender, EventArgs e) {
                 Close();
@@ -78,17 +101,13 @@ namespace LibraryManager.Forms
                     {
                         string json = JsonSerializer.Serialize(books);
                         sw.WriteLine(json);
-
+                        
                     }
                     
                     Close(); // Closing the form once the book is added and saved.
-                    Form parentForm = Application.OpenForms["Form1"];
-                    if (parentForm != null) {
-
-                        parentForm.Invalidate();
-                    }
                     
-                }
+
+            }
                 else
                 {
                     Console.WriteLine("Error: JSON file missing. Cannot save.");

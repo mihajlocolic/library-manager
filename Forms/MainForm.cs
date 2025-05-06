@@ -77,8 +77,10 @@ namespace LibraryManager
 
         private void addBookBtn_Click(object sender, EventArgs e)
         {
-            BookAddForm bookAddForm = new BookAddForm();
+            BookAddForm bookAddForm = new BookAddForm(this);
             bookAddForm.ShowDialog();
+
+
         }
 
         private void exitBtnBooks_Click(object sender, EventArgs e)
@@ -174,13 +176,14 @@ namespace LibraryManager
             {
                 dataGridView1.Rows.RemoveAt(selectedBookRow.Index);
                 books.Remove(foundBook);
-    
-            } else
+
+            }
+            else
             {
                 Console.WriteLine("Matching book not found in database.");
             }
 
-                SaveBooksChanges();
+            SaveBooksChanges();
         }
 
         private void SaveBooksChanges()
@@ -199,12 +202,22 @@ namespace LibraryManager
                 Console.WriteLine("Error: JSON file missing. Cannot save.");
             }
         }
-        
+
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             int index = e.RowIndex;
             DataGridViewRow selectedRow = dataGridView1.Rows[index];
             selectedBookRow = selectedRow;
+        }
+
+        private void MainForm_Deactivate(object sender, EventArgs e)
+        {
+
+        }
+
+        private void MainForm_Activated(object sender, EventArgs e)
+        {
+            
         }
     }
 }

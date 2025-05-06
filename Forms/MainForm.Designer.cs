@@ -225,6 +225,8 @@ namespace LibraryManager
             MaximizeBox = false;
             Name = "MainForm";
             Text = "Library Manager";
+            Activated += MainForm_Activated;
+            Deactivate += MainForm_Deactivate;
             Load += Form1_Load;
             tabControl.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
@@ -245,11 +247,11 @@ namespace LibraryManager
         private Button removeMemberBtn;
         private Button removeBookBtn;
         private Button exitBtnMembers;
-        private DataGridView dataGridView1;
         private DataGridViewTextBoxColumn bookId;
         private DataGridViewTextBoxColumn bookTitle;
         private DataGridViewTextBoxColumn bookAuthor;
         private DataGridViewTextBoxColumn bookGenre;
         private DataGridViewTextBoxColumn bookStatus;
+        public DataGridView dataGridView1;
     }
 }
