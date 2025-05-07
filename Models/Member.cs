@@ -1,6 +1,6 @@
 ﻿namespace LibraryManager.Models
 {
-    internal class Member
+    public class Member
     {
         public long id { get; set; }
         public string firstName { get; set; }

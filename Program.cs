@@ -20,7 +20,7 @@ namespace LibraryManager
 
 
   
-            ReadFromJsonFiles();
+            //ReadFromJsonFiles();
             Application.Run(new MainForm());
         }
 

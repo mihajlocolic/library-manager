@@ -1,6 +1,6 @@
 ﻿namespace LibraryManager.Models
 {
-    internal class Book
+    public class Book
     {
 
         public enum BookStatus

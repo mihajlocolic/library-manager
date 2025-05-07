@@ -168,21 +168,13 @@ namespace LibraryManager
 
         private void removeBookBtn_Click(object sender, EventArgs e)
         {
-            var selectedBookId = selectedBookRow.Cells[0].Value;
-            var foundBook = books.Find(x => x.title == selectedBookRow.Cells[1].Value.ToString());
 
+            Book tmpBook = (Book) selectedBookRow.DataBoundItem;
+           
+            dataGridView1.Rows.RemoveAt(selectedBookRow.Index);
+            books.Remove(tmpBook);
 
-            if (long.Equals(selectedBookId, foundBook.id))
-            {
-                dataGridView1.Rows.RemoveAt(selectedBookRow.Index);
-                books.Remove(foundBook);
-
-            }
-            else
-            {
-                Console.WriteLine("Matching book not found in database.");
-            }
-
+          
             SaveBooksChanges();
         }
 
