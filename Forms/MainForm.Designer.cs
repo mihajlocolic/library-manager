@@ -97,7 +97,7 @@ namespace LibraryManager
             dataGridView1.Location = new Point(0, 3);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(1209, 473);
+            dataGridView1.Size = new Size(1186, 508);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
@@ -105,7 +105,7 @@ namespace LibraryManager
             // 
             // removeBookBtn
             // 
-            removeBookBtn.Location = new Point(248, 550);
+            removeBookBtn.Location = new Point(248, 546);
             removeBookBtn.Name = "removeBookBtn";
             removeBookBtn.Size = new Size(157, 48);
             removeBookBtn.TabIndex = 9;
@@ -123,7 +123,7 @@ namespace LibraryManager
             // 
             // exitBtnBooks
             // 
-            exitBtnBooks.Location = new Point(993, 550);
+            exitBtnBooks.Location = new Point(1011, 546);
             exitBtnBooks.Name = "exitBtnBooks";
             exitBtnBooks.Size = new Size(157, 48);
             exitBtnBooks.TabIndex = 7;
@@ -133,7 +133,7 @@ namespace LibraryManager
             // 
             // addBookBtn
             // 
-            addBookBtn.Location = new Point(38, 550);
+            addBookBtn.Location = new Point(38, 546);
             addBookBtn.Name = "addBookBtn";
             addBookBtn.Size = new Size(157, 48);
             addBookBtn.TabIndex = 6;
@@ -160,18 +160,20 @@ namespace LibraryManager
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.AllowUserToDeleteRows = false;
             dataGridView2.AllowUserToOrderColumns = true;
+            dataGridView2.BackgroundColor = SystemColors.ButtonFace;
             dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView2.GridColor = SystemColors.MenuBar;
             dataGridView2.Location = new Point(0, 0);
             dataGridView2.Name = "dataGridView2";
             dataGridView2.RowHeadersWidth = 62;
-            dataGridView2.Size = new Size(1224, 453);
+            dataGridView2.Size = new Size(1186, 500);
             dataGridView2.TabIndex = 8;
             dataGridView2.CellClick += dataGridView2_CellClick;
             dataGridView2.CellValueChanged += dataGridView2_CellValueChanged;
             // 
             // exitBtnMembers
             // 
-            exitBtnMembers.Location = new Point(1029, 545);
+            exitBtnMembers.Location = new Point(1018, 548);
             exitBtnMembers.Name = "exitBtnMembers";
             exitBtnMembers.Size = new Size(151, 46);
             exitBtnMembers.TabIndex = 7;
