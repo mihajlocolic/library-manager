@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Windows.Forms.VisualStyles;
 using LibraryManager.Forms;
 using LibraryManager.Models;
 using static System.Reflection.Metadata.BlobBuilder;
@@ -159,22 +160,24 @@ namespace LibraryManager
             }
             dataGridView1.DataSource = source;
             dataGridView1.AutoGenerateColumns = true;
-            dataGridView1.AutoSize = true;
+            
+
             dataGridView1.AllowDrop = false;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeRows = false;
+            
         }
 
         private void removeBookBtn_Click(object sender, EventArgs e)
         {
 
-            Book tmpBook = (Book) selectedBookRow.DataBoundItem;
-           
+            Book tmpBook = (Book)selectedBookRow.DataBoundItem;
+
             dataGridView1.Rows.RemoveAt(selectedBookRow.Index);
             books.Remove(tmpBook);
 
-          
+
             SaveBooksChanges();
         }
 
@@ -197,9 +200,13 @@ namespace LibraryManager
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            int index = e.RowIndex;
-            DataGridViewRow selectedRow = dataGridView1.Rows[index];
-            selectedBookRow = selectedRow;
+            
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
+                selectedBookRow = selectedRow;
+            }
+            
         }
 
         private void MainForm_Deactivate(object sender, EventArgs e)
@@ -209,7 +216,12 @@ namespace LibraryManager
 
         private void MainForm_Activated(object sender, EventArgs e)
         {
-            
+
+        }
+
+        private void tabPage1_Click_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

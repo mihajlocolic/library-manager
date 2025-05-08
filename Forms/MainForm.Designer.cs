@@ -69,6 +69,7 @@ namespace LibraryManager
             // 
             // tabPage1
             // 
+            tabPage1.AutoScroll = true;
             tabPage1.Controls.Add(dataGridView1);
             tabPage1.Controls.Add(removeBookBtn);
             tabPage1.Controls.Add(label1);
@@ -81,6 +82,7 @@ namespace LibraryManager
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Books";
             tabPage1.UseVisualStyleBackColor = true;
+            tabPage1.Click += tabPage1_Click_1;
             // 
             // dataGridView1
             // 
@@ -93,7 +95,7 @@ namespace LibraryManager
             dataGridView1.Location = new Point(0, 3);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 62;
-            dataGridView1.Size = new Size(1209, 504);
+            dataGridView1.Size = new Size(1209, 473);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
@@ -222,6 +224,7 @@ namespace LibraryManager
             ClientSize = new Size(1213, 673);
             Controls.Add(tabControl);
             ForeColor = SystemColors.ControlText;
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             Name = "MainForm";
             Text = "Library Manager";
