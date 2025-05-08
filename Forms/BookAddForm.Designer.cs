@@ -89,7 +89,7 @@
             bookGenreLabel.Size = new Size(78, 32);
             bookGenreLabel.TabIndex = 5;
             bookGenreLabel.Text = "Genre";
-            bookGenreLabel.Click += label2_Click;
+            
             // 
             // addBookBtn
             // 

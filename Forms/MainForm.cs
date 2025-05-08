@@ -1,8 +1,6 @@
 using System.Text.Json;
-using System.Windows.Forms.VisualStyles;
 using LibraryManager.Forms;
 using LibraryManager.Models;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace LibraryManager
 {
@@ -52,28 +50,6 @@ namespace LibraryManager
         }
 
 
-        private void tableLayoutPanel1_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
-        private void tableLayoutPanel1_Paint_1(object sender, PaintEventArgs e)
-        {
-
-        }
-
-
-        private void tabPage1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void testBtn_Click(object sender, EventArgs e)
-        {
-            label1.Text = "Hello world!";
-        }
-
         private void addBookBtn_Click(object sender, EventArgs e)
         {
             BookAddForm bookAddForm = new BookAddForm(this);
@@ -96,11 +72,6 @@ namespace LibraryManager
         private void exitBtnMembers_Click(object sender, EventArgs e)
         {
             Close();
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
 
 
@@ -255,21 +226,6 @@ namespace LibraryManager
                 DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
                 selectedBookRow = selectedRow;
             }
-
-        }
-
-        private void MainForm_Deactivate(object sender, EventArgs e)
-        {
-
-        }
-
-        private void MainForm_Activated(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage1_Click_1(object sender, EventArgs e)
-        {
 
         }
 

@@ -84,7 +84,6 @@ namespace LibraryManager
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Books";
             tabPage1.UseVisualStyleBackColor = true;
-            tabPage1.Click += tabPage1_Click_1;
             // 
             // dataGridView1
             // 
@@ -100,7 +99,6 @@ namespace LibraryManager
             dataGridView1.Size = new Size(1186, 508);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellValueChanged += dataGridView1_CellValueChanged_1;
             // 
             // removeBookBtn
@@ -248,8 +246,6 @@ namespace LibraryManager
             MaximizeBox = false;
             Name = "MainForm";
             Text = "Library Manager";
-            Activated += MainForm_Activated;
-            Deactivate += MainForm_Deactivate;
             Load += Form1_Load;
             tabControl.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
