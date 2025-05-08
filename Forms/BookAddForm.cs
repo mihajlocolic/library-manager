@@ -62,9 +62,7 @@ namespace LibraryManager.Forms
                     books.Add(tmp);
                 }
 
-                TextBox tb = new TextBox();
-                tb.Text = tmp.ToString();
-
+                
                 SaveBooks();
                 UpdateGridView();
 

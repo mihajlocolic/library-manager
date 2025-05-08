@@ -34,8 +34,6 @@ namespace LibraryManager
 
                 }
 
-                LoadDataOnGridView();
-
             }
 
 
@@ -50,7 +48,7 @@ namespace LibraryManager
                 }
             }
 
-
+            LoadDataOnGridView();
         }
 
 
@@ -91,7 +89,7 @@ namespace LibraryManager
 
         private void addMemberBtn_Click(object sender, EventArgs e)
         {
-            MemberAddForm memberAddForm = new MemberAddForm();
+            MemberAddForm memberAddForm = new MemberAddForm(this);
             memberAddForm.ShowDialog();
         }
 
@@ -109,6 +107,42 @@ namespace LibraryManager
         private void dataGridView1_CellValueChanged_1(object sender, DataGridViewCellEventArgs e)
         {
             UpdateBooks();
+        }
+
+        private void UpdateMembers()
+        {
+            string firstName;
+            string lastName;
+            string phoneNumber;
+
+            for (int i = 1; i < (dataGridView2.Rows.Count - 1); i++)
+            {
+                firstName = dataGridView2.Rows[i].Cells["firstName"].Value.ToString();
+                lastName = dataGridView2.Rows[i].Cells["lastName"].Value.ToString();
+                phoneNumber = dataGridView2.Rows[i].Cells["phoneNumber"].Value.ToString();
+
+                if (firstName.Length > 0 && lastName.Length > 0 && phoneNumber.Length > 0)
+                {
+                    members[i].firstName = firstName;
+                    members[i].lastName = lastName;
+                    members[i].phoneNumber = phoneNumber;
+                }
+            }
+
+            if (File.Exists("members.json"))
+            {
+                using (StreamWriter sw = new StreamWriter("members.json"))
+                {
+                    string json = JsonSerializer.Serialize(members);
+                    sw.WriteLine(json);
+
+                }
+
+            }
+            else
+            {
+                Console.WriteLine("Error: JSON file missing. Cannot save.");
+            }
         }
 
         private void UpdateBooks()
@@ -153,20 +187,35 @@ namespace LibraryManager
 
         private void LoadDataOnGridView()
         {
-            BindingSource source = new BindingSource();
+            BindingSource booksSource = new BindingSource();
             foreach (Book b in books)
             {
-                source.Add(b);
+                booksSource.Add(b);
             }
-            dataGridView1.DataSource = source;
+            dataGridView1.DataSource = booksSource;
             dataGridView1.AutoGenerateColumns = true;
-            
+
 
             dataGridView1.AllowDrop = false;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeRows = false;
-            
+
+
+            BindingSource membersSource = new BindingSource();
+            foreach (Member m in members)
+            {
+                membersSource.Add(m);
+            }
+            dataGridView2.DataSource = membersSource;
+            dataGridView2.AutoGenerateColumns = true;
+
+
+            dataGridView2.AllowDrop = false;
+            dataGridView2.AllowUserToAddRows = false;
+            dataGridView2.AllowUserToDeleteRows = false;
+            dataGridView2.AllowUserToResizeRows = false;
+
         }
 
         private void removeBookBtn_Click(object sender, EventArgs e)
@@ -200,13 +249,13 @@ namespace LibraryManager
 
         private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            
+
             if (e.RowIndex >= 0)
             {
                 DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
                 selectedBookRow = selectedRow;
             }
-            
+
         }
 
         private void MainForm_Deactivate(object sender, EventArgs e)
@@ -222,6 +271,49 @@ namespace LibraryManager
         private void tabPage1_Click_1(object sender, EventArgs e)
         {
 
+        }
+
+        private void removeMemberBtn_Click(object sender, EventArgs e)
+        {
+            Member tmpMember = (Member)selectedBookRow.DataBoundItem;
+
+            dataGridView2.Rows.RemoveAt(selectedBookRow.Index);
+            members.Remove(tmpMember);
+
+
+            SaveMembersChanges();
+
+        }
+
+        private void SaveMembersChanges()
+        {
+            if (File.Exists("members.json"))
+            {
+                using (StreamWriter sw = new StreamWriter("members.json"))
+                {
+                    string json = JsonSerializer.Serialize(members);
+                    sw.WriteLine(json);
+
+                }
+            }
+            else
+            {
+                Console.WriteLine("Error: JSON file missing. Cannot save.");
+            }
+        }
+
+        private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            UpdateMembers();
+        }
+
+        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                DataGridViewRow selectedRow = dataGridView2.Rows[e.RowIndex];
+                selectedBookRow = selectedRow;
+            }
         }
     }
 }

@@ -16,11 +16,14 @@ namespace LibraryManager.Forms
     public partial class MemberAddForm : Form
     {
 
+        MainForm mainForm;
         List<Member> members = new List<Member>();
 
-        public MemberAddForm()
+        public MemberAddForm(MainForm mf)
         {
             InitializeComponent();
+
+            this.mainForm = mf;
 
             FileInfo membersFile = new FileInfo("members.json");
             if (membersFile.Length > 0)
@@ -50,6 +53,7 @@ namespace LibraryManager.Forms
                 }
 
                 SaveMembers();
+                UpdateGridView();
 
             }
             else
@@ -74,6 +78,20 @@ namespace LibraryManager.Forms
             {
                 Console.WriteLine("Error: JSON file missing. Cannot save.");
             }
+        }
+
+        private void UpdateGridView()
+        {
+
+            BindingSource source = new BindingSource();
+
+            foreach (Member m in members)
+            {
+                source.Add(m);
+            }
+            mainForm.dataGridView2.DataSource = source;
+
+
         }
 
 

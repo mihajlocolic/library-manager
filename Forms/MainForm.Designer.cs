@@ -42,6 +42,7 @@ namespace LibraryManager
             exitBtnBooks = new Button();
             addBookBtn = new Button();
             tabPage2 = new TabPage();
+            dataGridView2 = new DataGridView();
             exitBtnMembers = new Button();
             removeMemberBtn = new Button();
             addMemberBtn = new Button();
@@ -54,6 +55,7 @@ namespace LibraryManager
             tabPage1.SuspendLayout();
             ((ISupportInitialize)dataGridView1).BeginInit();
             tabPage2.SuspendLayout();
+            ((ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
             // 
             // tabControl
@@ -141,6 +143,7 @@ namespace LibraryManager
             // 
             // tabPage2
             // 
+            tabPage2.Controls.Add(dataGridView2);
             tabPage2.Controls.Add(exitBtnMembers);
             tabPage2.Controls.Add(removeMemberBtn);
             tabPage2.Controls.Add(addMemberBtn);
@@ -151,6 +154,20 @@ namespace LibraryManager
             tabPage2.TabIndex = 1;
             tabPage2.Text = "Members";
             tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // dataGridView2
+            // 
+            dataGridView2.AllowUserToAddRows = false;
+            dataGridView2.AllowUserToDeleteRows = false;
+            dataGridView2.AllowUserToOrderColumns = true;
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView2.Location = new Point(0, 0);
+            dataGridView2.Name = "dataGridView2";
+            dataGridView2.RowHeadersWidth = 62;
+            dataGridView2.Size = new Size(1224, 453);
+            dataGridView2.TabIndex = 8;
+            dataGridView2.CellClick += dataGridView2_CellClick;
+            dataGridView2.CellValueChanged += dataGridView2_CellValueChanged;
             // 
             // exitBtnMembers
             // 
@@ -170,6 +187,7 @@ namespace LibraryManager
             removeMemberBtn.TabIndex = 6;
             removeMemberBtn.Text = "Remove";
             removeMemberBtn.UseVisualStyleBackColor = true;
+            removeMemberBtn.Click += removeMemberBtn_Click;
             // 
             // addMemberBtn
             // 
@@ -236,6 +254,7 @@ namespace LibraryManager
             tabPage1.PerformLayout();
             ((ISupportInitialize)dataGridView1).EndInit();
             tabPage2.ResumeLayout(false);
+            ((ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);
         }
 
@@ -256,5 +275,6 @@ namespace LibraryManager
         private DataGridViewTextBoxColumn bookGenre;
         private DataGridViewTextBoxColumn bookStatus;
         public DataGridView dataGridView1;
+        public DataGridView dataGridView2;
     }
 }
