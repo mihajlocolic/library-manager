@@ -274,5 +274,6 @@ namespace LibraryManager
         private DataGridViewTextBoxColumn bookStatus;
         public DataGridView dataGridView1;
         public DataGridView dataGridView2;
+       
     }
 }

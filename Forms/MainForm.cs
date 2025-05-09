@@ -80,6 +80,17 @@ namespace LibraryManager
             UpdateBooks();
         }
 
+        private bool IsNullOrEmpty(Object cell)
+        {
+            if (cell == null)
+            {
+                return true;
+            } else
+            {
+                return false;
+            }
+        }
+
         private void UpdateMembers()
         {
             string firstName;
@@ -88,16 +99,16 @@ namespace LibraryManager
 
             for (int i = 1; i < (dataGridView2.Rows.Count - 1); i++)
             {
-                firstName = dataGridView2.Rows[i].Cells["firstName"].Value.ToString();
-                lastName = dataGridView2.Rows[i].Cells["lastName"].Value.ToString();
-                phoneNumber = dataGridView2.Rows[i].Cells["phoneNumber"].Value.ToString();
+                
+                firstName = IsNullOrEmpty(dataGridView2.Rows[i].Cells["firstName"].Value) ? string.Empty : dataGridView2.Rows[i].Cells["firstName"].Value.ToString();
+                lastName = IsNullOrEmpty(dataGridView2.Rows[i].Cells["lastName"].Value) ? string.Empty : dataGridView2.Rows[i].Cells["lastName"].Value.ToString();
+                phoneNumber = IsNullOrEmpty(dataGridView2.Rows[i].Cells["phoneNumber"].Value) ? string.Empty : dataGridView2.Rows[i].Cells["phoneNumber"].Value.ToString();
 
-                if (firstName.Length > 0 && lastName.Length > 0 && phoneNumber.Length > 0)
-                {
-                    members[i].firstName = firstName;
-                    members[i].lastName = lastName;
-                    members[i].phoneNumber = phoneNumber;
-                }
+                
+                members[i].firstName = firstName;
+                members[i].lastName = lastName;
+                members[i].phoneNumber = phoneNumber;
+                
             }
 
             if (File.Exists("members.json"))
@@ -124,20 +135,15 @@ namespace LibraryManager
 
             for (int i = 1; i < (dataGridView1.Rows.Count - 1); i++)
             {
-                title = dataGridView1.Rows[i].Cells["title"].Value.ToString();
-                author = dataGridView1.Rows[i].Cells["author"].Value.ToString();
-                genre = dataGridView1.Rows[i].Cells["genre"].Value.ToString();
+                title = IsNullOrEmpty(dataGridView1.Rows[i].Cells["title"].Value) ? string.Empty: dataGridView1.Rows[i].Cells["title"].Value.ToString();
+                author = IsNullOrEmpty(dataGridView1.Rows[i].Cells["author"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["author"].Value.ToString();
+                genre = IsNullOrEmpty(dataGridView1.Rows[i].Cells["genre"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["genre"].Value.ToString();
 
-                Console.WriteLine(title);
-                Console.WriteLine(author);
-                Console.WriteLine(genre);
-
-                if (title.Length > 0 && author.Length > 0 && genre.Length > 0)
-                {
-                    books[i].title = title;
-                    books[i].author = author;
-                    books[i].genre = genre;
-                }
+              
+                books[i].title = title;
+                books[i].author = author;
+                books[i].genre = genre;
+              
             }
 
             if (File.Exists("books.json"))
