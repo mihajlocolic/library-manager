@@ -33,7 +33,7 @@ namespace LibraryManager.Forms
 
                 if (members.Count > 0)
                 {
-                    Member tmp = new(members.Last().id + 1, memberFirstName.Text, memberLastName.Text, memberPhoneNumber.Text);
+                    Member tmp = new(members.Last().Id + 1, memberFirstName.Text, memberLastName.Text, memberPhoneNumber.Text);
                     members.Add(tmp);
                 }
                 else

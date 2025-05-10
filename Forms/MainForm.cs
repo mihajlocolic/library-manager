@@ -1,3 +1,4 @@
+using System.Data;
 using System.Text.Json;
 using LibraryManager.Forms;
 using LibraryManager.Models;
@@ -85,7 +86,8 @@ namespace LibraryManager
             if (cell == null)
             {
                 return true;
-            } else
+            }
+            else
             {
                 return false;
             }
@@ -99,16 +101,16 @@ namespace LibraryManager
 
             for (int i = 1; i < (dataGridView2.Rows.Count - 1); i++)
             {
-                
-                firstName = IsNullOrEmpty(dataGridView2.Rows[i].Cells["firstName"].Value) ? string.Empty : dataGridView2.Rows[i].Cells["firstName"].Value.ToString();
-                lastName = IsNullOrEmpty(dataGridView2.Rows[i].Cells["lastName"].Value) ? string.Empty : dataGridView2.Rows[i].Cells["lastName"].Value.ToString();
-                phoneNumber = IsNullOrEmpty(dataGridView2.Rows[i].Cells["phoneNumber"].Value) ? string.Empty : dataGridView2.Rows[i].Cells["phoneNumber"].Value.ToString();
 
-                
-                members[i].firstName = firstName;
-                members[i].lastName = lastName;
-                members[i].phoneNumber = phoneNumber;
-                
+                firstName = IsNullOrEmpty(dataGridView2.Rows[i].Cells["FirstName"].Value) ? string.Empty : dataGridView2.Rows[i].Cells["FirstName"].Value.ToString();
+                lastName = IsNullOrEmpty(dataGridView2.Rows[i].Cells["LastName"].Value) ? string.Empty : dataGridView2.Rows[i].Cells["LastName"].Value.ToString();
+                phoneNumber = IsNullOrEmpty(dataGridView2.Rows[i].Cells["PhoneNumber"].Value) ? string.Empty : dataGridView2.Rows[i].Cells["PhoneNumber"].Value.ToString();
+
+
+                members[i].FirstName = firstName;
+                members[i].LastName = lastName;
+                members[i].PhoneNumber = phoneNumber;
+
             }
 
             if (File.Exists("members.json"))
@@ -135,15 +137,15 @@ namespace LibraryManager
 
             for (int i = 1; i < (dataGridView1.Rows.Count - 1); i++)
             {
-                title = IsNullOrEmpty(dataGridView1.Rows[i].Cells["title"].Value) ? string.Empty: dataGridView1.Rows[i].Cells["title"].Value.ToString();
-                author = IsNullOrEmpty(dataGridView1.Rows[i].Cells["author"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["author"].Value.ToString();
-                genre = IsNullOrEmpty(dataGridView1.Rows[i].Cells["genre"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["genre"].Value.ToString();
+                title = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Title"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Title"].Value.ToString();
+                author = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Author"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Author"].Value.ToString();
+                genre = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Genre"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Genre"].Value.ToString();
 
-              
-                books[i].title = title;
-                books[i].author = author;
-                books[i].genre = genre;
-              
+
+                books[i].Title = title;
+                books[i].Author = author;
+                books[i].Genre = genre;
+
             }
 
             if (File.Exists("books.json"))
@@ -164,20 +166,24 @@ namespace LibraryManager
 
         private void LoadDataOnGridView()
         {
+
             BindingSource booksSource = new BindingSource();
+           
             foreach (Book b in books)
             {
                 booksSource.Add(b);
             }
+
+           
             dataGridView1.DataSource = booksSource;
             dataGridView1.AutoGenerateColumns = true;
-
 
             dataGridView1.AllowDrop = false;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeRows = false;
-
+            dataGridView1.Columns["Status"].ReadOnly = true;
+            
 
             BindingSource membersSource = new BindingSource();
             foreach (Member m in members)
@@ -185,7 +191,7 @@ namespace LibraryManager
                 membersSource.Add(m);
             }
             dataGridView2.DataSource = membersSource;
-            dataGridView2.AutoGenerateColumns = true;
+            dataGridView2.AutoGenerateColumns = false;
 
 
             dataGridView2.AllowDrop = false;
@@ -276,6 +282,11 @@ namespace LibraryManager
                 DataGridViewRow selectedRow = dataGridView2.Rows[e.RowIndex];
                 selectedBookRow = selectedRow;
             }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

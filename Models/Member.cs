@@ -2,18 +2,18 @@
 {
     public class Member
     {
-        public long id { get; set; }
-        public string firstName { get; set; }
-        public string lastName {  get; set; }
-        public string phoneNumber {  get; set; }
+        public long Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName {  get; set; }
+        public string PhoneNumber {  get; set; }
 
         public Member() { }
         public Member(long id, string firstName, string lastName, string phoneNumber)
         {
-            this.id = id;
-            this.firstName = firstName;
-            this.lastName = lastName;
-            this.phoneNumber = phoneNumber;
+            this.Id = id;
+            this.FirstName = firstName;
+            this.LastName = lastName;
+            this.PhoneNumber = phoneNumber;
         }
     }
 }

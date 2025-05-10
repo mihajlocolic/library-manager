@@ -9,21 +9,23 @@
             Borrowed
         }
 
-        public long id {  get; set; }
-        public string title {  get; set; }
-        public string author {  get; set; }
-        public string genre {  get; set; }
+        public long Id {  get; set; }
+        public string Title {  get; set; }
+        public string Author {  get; set; }
+        public string Genre {  get; set; }
         public BookStatus Status {  get; set; }
-        public int? borrowerId {  get; set; }
+        public Member? Borrower {  get; set; }
 
         public Book() { }
 
-        public Book(long id, string title, string author, string genre)
+        public Book(long id, string title, string author, string genre, BookStatus status, Member borrower)
         {
-            this.id = id;
-            this.title = title;
-            this.author = author;
-            this.genre = genre;
+            this.Id = id;
+            this.Title = title;
+            this.Author = author;
+            this.Genre = genre;
+            this.Status = status;
+            this.Borrower = borrower;
         }
     }
 }

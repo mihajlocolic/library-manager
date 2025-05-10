@@ -37,12 +37,12 @@ namespace LibraryManager.Forms
             {
                 Book tmp;
                 if (books.Count > 0) {
-                    tmp = new(books.Last().id + 1, bookTitleText.Text, bookAuthorText.Text, bookGenreText.Text);
+                    tmp = new(books.Last().Id + 1, bookTitleText.Text, bookAuthorText.Text, bookGenreText.Text, Book.BookStatus.Available, null);
                     books.Add(tmp);
                 }
                 else
                 {
-                    tmp = new(1, bookTitleText.Text, bookAuthorText.Text, bookGenreText.Text);
+                    tmp = new(1, bookTitleText.Text, bookAuthorText.Text, bookGenreText.Text, Book.BookStatus.Available, null);
                     books.Add(tmp);
                 }
 

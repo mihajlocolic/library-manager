@@ -99,6 +99,7 @@ namespace LibraryManager
             dataGridView1.Size = new Size(1186, 508);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellValueChanged += dataGridView1_CellValueChanged_1;
             // 
             // removeBookBtn
@@ -274,6 +275,5 @@ namespace LibraryManager
         private DataGridViewTextBoxColumn bookStatus;
         public DataGridView dataGridView1;
         public DataGridView dataGridView2;
-       
     }
 }
