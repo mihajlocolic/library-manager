@@ -1,5 +1,6 @@
 using System.Data;
 using System.Text.Json;
+using System.Windows.Forms;
 using LibraryManager.Forms;
 using LibraryManager.Models;
 
@@ -9,8 +10,8 @@ namespace LibraryManager
     {
 
 
-        private List<Book> books = new List<Book>();
-        private List<Member> members = new List<Member>();
+        public List<Book> books = new List<Book>();
+        public List<Member> members = new List<Member>();
         public DataGridViewRow selectedBookRow;
 
         public MainForm()
@@ -135,12 +136,13 @@ namespace LibraryManager
             string author;
             string genre;
 
+
             for (int i = 1; i < (dataGridView1.Rows.Count - 1); i++)
             {
                 title = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Title"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Title"].Value.ToString();
                 author = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Author"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Author"].Value.ToString();
                 genre = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Genre"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Genre"].Value.ToString();
-
+                
 
                 books[i].Title = title;
                 books[i].Author = author;
@@ -168,13 +170,15 @@ namespace LibraryManager
         {
 
             BindingSource booksSource = new BindingSource();
-           
+          
+
             foreach (Book b in books)
             {
                 booksSource.Add(b);
+                
             }
 
-           
+
             dataGridView1.DataSource = booksSource;
             dataGridView1.AutoGenerateColumns = true;
 
@@ -183,7 +187,10 @@ namespace LibraryManager
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeRows = false;
             dataGridView1.Columns["Status"].ReadOnly = true;
-            
+            dataGridView1.Columns["Borrower"].ReadOnly = true;
+            dataGridView1.Columns["Borrower"].ValueType = typeof(string);
+
+                   
 
             BindingSource membersSource = new BindingSource();
             foreach (Member m in members)
@@ -287,6 +294,12 @@ namespace LibraryManager
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
+        }
+
+        private void borrowBtn_Click(object sender, EventArgs e)
+        {
+            BorrowForm borrowForm = new BorrowForm(members, this);
+            borrowForm.ShowDialog();
         }
     }
 }
