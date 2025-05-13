@@ -36,6 +36,7 @@ namespace LibraryManager
         {
             tabControl = new TabControl();
             tabPage1 = new TabPage();
+            borrowBtn = new Button();
             dataGridView1 = new DataGridView();
             removeBookBtn = new Button();
             label1 = new Label();
@@ -51,7 +52,6 @@ namespace LibraryManager
             bookAuthor = new DataGridViewTextBoxColumn();
             bookTitle = new DataGridViewTextBoxColumn();
             bookId = new DataGridViewTextBoxColumn();
-            borrowBtn = new Button();
             tabControl.SuspendLayout();
             tabPage1.SuspendLayout();
             ((ISupportInitialize)dataGridView1).BeginInit();
@@ -86,6 +86,16 @@ namespace LibraryManager
             tabPage1.TabIndex = 0;
             tabPage1.Text = "Books";
             tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // borrowBtn
+            // 
+            borrowBtn.Location = new Point(450, 546);
+            borrowBtn.Name = "borrowBtn";
+            borrowBtn.Size = new Size(157, 48);
+            borrowBtn.TabIndex = 10;
+            borrowBtn.Text = "Borrow";
+            borrowBtn.UseVisualStyleBackColor = true;
+            borrowBtn.Click += borrowBtn_Click;
             // 
             // dataGridView1
             // 
@@ -236,16 +246,6 @@ namespace LibraryManager
             bookId.MinimumWidth = 8;
             bookId.Name = "bookId";
             bookId.Width = 150;
-            // 
-            // borrowBtn
-            // 
-            borrowBtn.Location = new Point(450, 546);
-            borrowBtn.Name = "borrowBtn";
-            borrowBtn.Size = new Size(157, 48);
-            borrowBtn.TabIndex = 10;
-            borrowBtn.Text = "Borrow";
-            borrowBtn.UseVisualStyleBackColor = true;
-            borrowBtn.Click += borrowBtn_Click;
             // 
             // MainForm
             // 

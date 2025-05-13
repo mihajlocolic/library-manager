@@ -1,4 +1,5 @@
 using System.Data;
+using System.Diagnostics;
 using System.Text.Json;
 using System.Windows.Forms;
 using LibraryManager.Forms;
@@ -13,11 +14,10 @@ namespace LibraryManager
         public List<Book> books = new List<Book>();
         public List<Member> members = new List<Member>();
         public DataGridViewRow selectedBookRow;
-
+     
         public MainForm()
         {
             InitializeComponent();
-
         }
 
 
@@ -80,7 +80,10 @@ namespace LibraryManager
         private void dataGridView1_CellValueChanged_1(object sender, DataGridViewCellEventArgs e)
         {
             UpdateBooks();
+
         }
+
+        
 
         private bool IsNullOrEmpty(Object cell)
         {
@@ -99,6 +102,7 @@ namespace LibraryManager
             string firstName;
             string lastName;
             string phoneNumber;
+            
 
             for (int i = 1; i < (dataGridView2.Rows.Count - 1); i++)
             {
@@ -135,6 +139,7 @@ namespace LibraryManager
             string title;
             string author;
             string genre;
+            string borrower;
 
 
             for (int i = 1; i < (dataGridView1.Rows.Count - 1); i++)
@@ -142,12 +147,26 @@ namespace LibraryManager
                 title = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Title"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Title"].Value.ToString();
                 author = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Author"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Author"].Value.ToString();
                 genre = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Genre"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Genre"].Value.ToString();
+                borrower = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Borrower"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Borrower"].Value.ToString();
+
                 
 
                 books[i].Title = title;
                 books[i].Author = author;
                 books[i].Genre = genre;
 
+                if (borrower.Length > 0)
+                {
+                    Member member = members.Find(x => x.FirstName + " " + x.LastName == borrower);
+                    books[i].Borrower = member;
+                    books[i].Status = Book.BookStatus.Borrowed;
+                } else
+                {
+                    books[i].Borrower = null;
+                    books[i].Status = Book.BookStatus.Available;
+                }
+                
+                
             }
 
             if (File.Exists("books.json"))
@@ -166,36 +185,56 @@ namespace LibraryManager
             }
         }
 
+
+
         private void LoadDataOnGridView()
         {
 
-            BindingSource booksSource = new BindingSource();
-          
+            //BindingSource booksSource = new BindingSource();
+            DataTable booksTable = new DataTable();
 
+            booksTable.Columns.Add("Id", typeof(int));
+            booksTable.Columns.Add("Title", typeof(string));
+            booksTable.Columns.Add("Author", typeof(string));
+            booksTable.Columns.Add("Genre", typeof(string));
+            booksTable.Columns.Add("Status", typeof(Book.BookStatus));
+            booksTable.Columns.Add("Borrower", typeof(string));
+
+            DataRow row;
+            string borrower; 
             foreach (Book b in books)
             {
-                booksSource.Add(b);
+                //booksSource.Add(b);
+                row = booksTable.NewRow();
+                row["Id"] = b.Id;
+                row["Title"] = b.Title;
+                row["Author"] = b.Author;
+                row["Genre"] = b.Genre;
+                row["Status"] = b.Status;
+
+                if (b.Borrower != null)
+                {
+                    borrower = b.Borrower.FirstName + " " + b.Borrower.LastName;
+                    row["Borrower"] = borrower;
+                }
+
+                booksTable.Rows.Add(row);
                 
             }
 
-
-            dataGridView1.DataSource = booksSource;
-            dataGridView1.AutoGenerateColumns = true;
-
+            //dataGridView1.DataSource = source;
+            dataGridView1.DataSource = booksTable;
             dataGridView1.AllowDrop = false;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeRows = false;
-            dataGridView1.Columns["Status"].ReadOnly = true;
-            dataGridView1.Columns["Borrower"].ReadOnly = true;
-            dataGridView1.Columns["Borrower"].ValueType = typeof(string);
-
-                   
-
+            dataGridView1.Columns[5].ReadOnly = true; // Borrower column
+            
             BindingSource membersSource = new BindingSource();
             foreach (Member m in members)
             {
                 membersSource.Add(m);
+                
             }
             dataGridView2.DataSource = membersSource;
             dataGridView2.AutoGenerateColumns = false;
@@ -298,7 +337,7 @@ namespace LibraryManager
 
         private void borrowBtn_Click(object sender, EventArgs e)
         {
-            BorrowForm borrowForm = new BorrowForm(members, this);
+            BorrowForm borrowForm = new BorrowForm(members, this, selectedBookRow);
             borrowForm.ShowDialog();
         }
     }
