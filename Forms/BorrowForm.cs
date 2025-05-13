@@ -29,20 +29,19 @@ namespace LibraryManager.Forms
 
         private void BorrowForm_Load(object sender, EventArgs e)
         {
-            int i = 0;
+            Dictionary<int, string> membersDict = new Dictionary<int, string>();
             foreach (Member m in members)
             {
-                borrowersComboBox.Items.Insert(i, (m.FirstName + " " + m.LastName));
-                i++;
+                membersDict.Add((int)m.Id, m.FirstName + " " + m.LastName);
             }
-
+            borrowersComboBox.DataSource = membersDict.ToArray();
 
         }
 
         private void borrowConfirmBtn_Click(object sender, EventArgs e)
         {
             var m = borrowersComboBox.SelectedIndex;
-
+            Console.WriteLine("Selected member: " + m);
             if (m != null)
             {
                 DataRow selectedBook;
@@ -63,6 +62,25 @@ namespace LibraryManager.Forms
 
                         mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Status"].Value = selectedBook["Status"];
                         mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Borrower"].Value = mbr.FirstName + " " + mbr.LastName;
+                        Book tmpBook = mainForm.books.Where(x => x.Id == (int) selectedBook["Id"]).FirstOrDefault();
+
+                        //Here im supposed to find that book and set the values, so i can save the borrowing changes.
+
+                        
+                        if (tmpBook != null) {
+                            int bookIdx = mainForm.books.FindIndex(x => x.Id == tmpBook.Id);
+                            Console.WriteLine(bookIdx);
+                            if (bookIdx != -1)
+                            {
+                                mainForm.books[bookIdx].Borrower = mbr;
+                                mainForm.books[bookIdx].Status = Book.BookStatus.Borrowed;
+                            }
+                            
+                        } else
+                        {
+                            Console.WriteLine("tmpBook was null");
+                        }
+                            mainForm.SaveBooksChanges();
                         Close();
                     }
                     else

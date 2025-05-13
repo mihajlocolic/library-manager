@@ -1,5 +1,6 @@
 using System.Data;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Windows.Forms;
 using LibraryManager.Forms;
@@ -134,12 +135,12 @@ namespace LibraryManager
             }
         }
 
-        private void UpdateBooks()
+        public void UpdateBooks()
         {
             string title;
             string author;
             string genre;
-            string borrower;
+            //string borrower;
 
 
             for (int i = 1; i < (dataGridView1.Rows.Count - 1); i++)
@@ -147,26 +148,13 @@ namespace LibraryManager
                 title = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Title"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Title"].Value.ToString();
                 author = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Author"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Author"].Value.ToString();
                 genre = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Genre"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Genre"].Value.ToString();
-                borrower = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Borrower"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Borrower"].Value.ToString();
-
-                
+               
 
                 books[i].Title = title;
                 books[i].Author = author;
                 books[i].Genre = genre;
 
-                if (borrower.Length > 0)
-                {
-                    Member member = members.Find(x => x.FirstName + " " + x.LastName == borrower);
-                    books[i].Borrower = member;
-                    books[i].Status = Book.BookStatus.Borrowed;
-                } else
-                {
-                    books[i].Borrower = null;
-                    books[i].Status = Book.BookStatus.Available;
-                }
-                
-                
+             
             }
 
             if (File.Exists("books.json"))
@@ -228,7 +216,9 @@ namespace LibraryManager
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.Columns[4].ReadOnly = true; // Status column
             dataGridView1.Columns[5].ReadOnly = true; // Borrower column
+            
             
             BindingSource membersSource = new BindingSource();
             foreach (Member m in members)
@@ -259,7 +249,7 @@ namespace LibraryManager
             SaveBooksChanges();
         }
 
-        private void SaveBooksChanges()
+        public void SaveBooksChanges()
         {
             if (File.Exists("books.json"))
             {
