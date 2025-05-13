@@ -45,29 +45,34 @@ namespace LibraryManager.Forms
 
             if (m != null)
             {
-                Book selectedBook;
-                    // Update book object and grid view
-                
-                selectedBook = selectedBookRow.DataBoundItem as Book;
+                DataRow selectedBook;
+                // Update book object and grid view
 
-                if (selectedBook != null)
-                {
-                    Member mbr = mainForm.members.Find(x => x.Id == m + 1);
-                    if (mbr != null)
+                if (selectedBookRow != null) {
+                    selectedBook = ((DataRowView) selectedBookRow.DataBoundItem).Row; // Solution found on stack overflow. (https://stackoverflow.com/questions/1822314/how-do-i-get-a-datarow-from-a-row-in-a-datagridview/1822337)
+
+                    if (selectedBook != null)
                     {
-                        selectedBook.Borrower = mbr;
-                        selectedBook.Status = Book.BookStatus.Borrowed;
+                        Member mbr = mainForm.members.Find(x => x.Id == m + 1);
+                        if (mbr != null)
+                        {
+                            selectedBook["Borrower"] = mbr;
+                            selectedBook["Status"] = Book.BookStatus.Borrowed;
+                        }
+
+
+                        mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Status"].Value = selectedBook["Status"];
+                        mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Borrower"].Value = mbr.FirstName + " " + mbr.LastName;
+                        Close();
                     }
-
-
-                    mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Status"].Value = selectedBook.Status;
-                    mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Borrower"].Value = mbr.FirstName + " " + mbr.LastName;
-                    Close();
+                    else
+                    {
+                        Console.WriteLine("selectedBook is null!");
+                    }
                 } else
                 {
                     Console.WriteLine("selectedBookRow is null!");
-                }
-           
+                }          
                
             }
             else
