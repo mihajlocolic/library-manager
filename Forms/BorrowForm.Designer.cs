@@ -32,6 +32,7 @@
             memberBorrowLabel = new Label();
             borrowConfirmBtn = new Button();
             cancelBorrowBtn = new Button();
+            resetBtn = new Button();
             SuspendLayout();
             // 
             // borrowersComboBox
@@ -59,7 +60,7 @@
             borrowConfirmBtn.Name = "borrowConfirmBtn";
             borrowConfirmBtn.Size = new Size(157, 59);
             borrowConfirmBtn.TabIndex = 2;
-            borrowConfirmBtn.Text = "Borrow";
+            borrowConfirmBtn.Text = "Confirm";
             borrowConfirmBtn.UseVisualStyleBackColor = true;
             borrowConfirmBtn.Click += borrowConfirmBtn_Click;
             // 
@@ -73,11 +74,22 @@
             cancelBorrowBtn.UseVisualStyleBackColor = true;
             cancelBorrowBtn.Click += cancelBorrowBtn_Click;
             // 
+            // resetBtn
+            // 
+            resetBtn.Location = new Point(500, 175);
+            resetBtn.Name = "resetBtn";
+            resetBtn.Size = new Size(87, 40);
+            resetBtn.TabIndex = 4;
+            resetBtn.Text = "Reset";
+            resetBtn.UseVisualStyleBackColor = true;
+            resetBtn.Click += resetBtn_Click;
+            // 
             // BorrowForm
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(599, 589);
+            Controls.Add(resetBtn);
             Controls.Add(cancelBorrowBtn);
             Controls.Add(borrowConfirmBtn);
             Controls.Add(memberBorrowLabel);
@@ -95,5 +107,6 @@
         private Label memberBorrowLabel;
         private Button borrowConfirmBtn;
         private Button cancelBorrowBtn;
+        private Button resetBtn;
     }
 }

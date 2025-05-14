@@ -140,8 +140,7 @@ namespace LibraryManager
             string title;
             string author;
             string genre;
-            //string borrower;
-
+          
 
             for (int i = 1; i < (dataGridView1.Rows.Count - 1); i++)
             {

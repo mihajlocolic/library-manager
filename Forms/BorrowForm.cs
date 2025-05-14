@@ -47,8 +47,9 @@ namespace LibraryManager.Forms
                 DataRow selectedBook;
                 // Update book object and grid view
 
-                if (selectedBookRow != null) {
-                    selectedBook = ((DataRowView) selectedBookRow.DataBoundItem).Row; // Solution found on stack overflow. (https://stackoverflow.com/questions/1822314/how-do-i-get-a-datarow-from-a-row-in-a-datagridview/1822337)
+                if (selectedBookRow != null)
+                {
+                    selectedBook = ((DataRowView)selectedBookRow.DataBoundItem).Row; // Solution found on stack overflow. (https://stackoverflow.com/questions/1822314/how-do-i-get-a-datarow-from-a-row-in-a-datagridview/1822337)
 
                     if (selectedBook != null)
                     {
@@ -62,12 +63,13 @@ namespace LibraryManager.Forms
 
                         mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Status"].Value = selectedBook["Status"];
                         mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Borrower"].Value = mbr.FirstName + " " + mbr.LastName;
-                        Book tmpBook = mainForm.books.Where(x => x.Id == (int) selectedBook["Id"]).FirstOrDefault();
+                        Book tmpBook = mainForm.books.Where(x => x.Id == (int)selectedBook["Id"]).FirstOrDefault();
 
                         //Here im supposed to find that book and set the values, so i can save the borrowing changes.
 
-                        
-                        if (tmpBook != null) {
+
+                        if (tmpBook != null)
+                        {
                             int bookIdx = mainForm.books.FindIndex(x => x.Id == tmpBook.Id);
                             Console.WriteLine(bookIdx);
                             if (bookIdx != -1)
@@ -75,23 +77,25 @@ namespace LibraryManager.Forms
                                 mainForm.books[bookIdx].Borrower = mbr;
                                 mainForm.books[bookIdx].Status = Book.BookStatus.Borrowed;
                             }
-                            
-                        } else
+
+                        }
+                        else
                         {
                             Console.WriteLine("tmpBook was null");
                         }
-                            mainForm.SaveBooksChanges();
+                        mainForm.SaveBooksChanges();
                         Close();
                     }
                     else
                     {
                         Console.WriteLine("selectedBook is null!");
                     }
-                } else
+                }
+                else
                 {
                     Console.WriteLine("selectedBookRow is null!");
-                }          
-               
+                }
+
             }
             else
             {
@@ -104,6 +108,50 @@ namespace LibraryManager.Forms
         private void cancelBorrowBtn_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void resetBtn_Click(object sender, EventArgs e)
+        {
+            DataRow dataRow;
+
+            dataRow = ((DataRowView)selectedBookRow.DataBoundItem).Row;
+            
+            if(dataRow != null)
+            {
+                dataRow["Borrower"] = string.Empty;
+                dataRow["Status"] = Book.BookStatus.Available;
+
+
+
+                mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Status"].Value = dataRow["Status"];
+                mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Borrower"].Value = string.Empty;
+                Book tmpBook = mainForm.books.Where(x => x.Id == (int)dataRow["Id"]).FirstOrDefault();
+
+
+                if (tmpBook != null)
+                {
+                    int bookIdx = mainForm.books.FindIndex(x => x.Id == tmpBook.Id);
+                   
+                    if (bookIdx != -1)
+                    {
+                        mainForm.books[bookIdx].Borrower = null;
+                        mainForm.books[bookIdx].Status = Book.BookStatus.Available;
+                    }
+
+                    mainForm.SaveBooksChanges();
+                    Close();
+
+                }
+                else
+                {
+                    Console.WriteLine("tmpBook was null");
+                }
+
+                
+
+            }
+
+
         }
     }
 }
