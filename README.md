@@ -1,2 +1,2 @@
 # library-manager
-Small library management WinForm app in C#.
+This is a small but complete library management app I built in WinForms using C#. It handles book/member management, borrowing logic, and persistent storage via JSON. I built it from scratch to practice real-world data handling and UI workflows.
