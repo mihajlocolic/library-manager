@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using System.Data;
 using LibraryManager.Models;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace LibraryManager.Forms
 {
@@ -21,10 +12,9 @@ namespace LibraryManager.Forms
         public BorrowForm(List<Member> m, MainForm mf, DataGridViewRow sbr)
         {
             this.members = m;
-            InitializeComponent();
             this.mainForm = mf;
-            this.selectedBookRow = selectedBookRow;
             this.selectedBookRow = sbr;
+            InitializeComponent();
         }
 
         private void BorrowForm_Load(object sender, EventArgs e)
@@ -40,51 +30,52 @@ namespace LibraryManager.Forms
 
         private void borrowConfirmBtn_Click(object sender, EventArgs e)
         {
-            var m = borrowersComboBox.SelectedIndex;
-            Console.WriteLine("Selected member: " + m);
-            if (m != null)
+            int? selectedMemberIndex = borrowersComboBox.SelectedIndex;
+            //Console.WriteLine("Selected member: " + selectedMemberIndex);
+            if (selectedMemberIndex != null)
             {
                 DataRow selectedBook;
                 // Update book object and grid view
 
                 if (selectedBookRow != null)
                 {
-                    selectedBook = ((DataRowView)selectedBookRow.DataBoundItem).Row; // Solution found on stack overflow. (https://stackoverflow.com/questions/1822314/how-do-i-get-a-datarow-from-a-row-in-a-datagridview/1822337)
+                    // Solution found on stack overflow.
+                    // https://stackoverflow.com/questions/1822314/how-do-i-get-a-datarow-from-a-row-in-a-datagridview/1822337
+                    selectedBook = (selectedBookRow.DataBoundItem as DataRowView).Row;
 
                     if (selectedBook != null)
                     {
-                        Member mbr = mainForm.members.Find(x => x.Id == m + 1);
+                        Member? mbr = mainForm.members.Find(x => x.Id == selectedMemberIndex + 1);
                         if (mbr != null)
                         {
                             selectedBook["Borrower"] = mbr;
                             selectedBook["Status"] = Book.BookStatus.Borrowed;
-                        }
 
+                            mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Status"].Value = selectedBook["Status"];
+                            mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Borrower"].Value = mbr.FirstName + " " + mbr.LastName;
+                            Book? tmpBook = mainForm.books.Where(x => x.Id == (int)selectedBook["Id"]).FirstOrDefault();
 
-                        mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Status"].Value = selectedBook["Status"];
-                        mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Borrower"].Value = mbr.FirstName + " " + mbr.LastName;
-                        Book tmpBook = mainForm.books.Where(x => x.Id == (int)selectedBook["Id"]).FirstOrDefault();
-
-                        //Here im supposed to find that book and set the values, so i can save the borrowing changes.
-
-
-                        if (tmpBook != null)
-                        {
-                            int bookIdx = mainForm.books.FindIndex(x => x.Id == tmpBook.Id);
-                            Console.WriteLine(bookIdx);
-                            if (bookIdx != -1)
+                            // Saving changes in the books list and json file.
+                            if (tmpBook != null)
                             {
-                                mainForm.books[bookIdx].Borrower = mbr;
-                                mainForm.books[bookIdx].Status = Book.BookStatus.Borrowed;
-                            }
+                                int bookIdx = mainForm.books.FindIndex(x => x.Id == tmpBook.Id);
+                                Console.WriteLine(bookIdx);
+                                if (bookIdx != -1)
+                                {
+                                    mainForm.books[bookIdx].Borrower = mbr;
+                                    mainForm.books[bookIdx].Status = Book.BookStatus.Borrowed;
 
+                                    mainForm.SaveBooksChanges();
+                                    Close();
+                                }
+
+                            }
+                            else
+                            {
+                                Console.WriteLine("tmpBook was null");
+                            }
+                            
                         }
-                        else
-                        {
-                            Console.WriteLine("tmpBook was null");
-                        }
-                        mainForm.SaveBooksChanges();
-                        Close();
                     }
                     else
                     {
@@ -100,7 +91,7 @@ namespace LibraryManager.Forms
             else
             {
                 Close();
-                throw new Exception("Selected book was null.");
+                throw new Exception("Selected member was null.");
                 // return error
             }
         }
@@ -114,7 +105,8 @@ namespace LibraryManager.Forms
         {
             DataRow dataRow;
 
-            dataRow = ((DataRowView)selectedBookRow.DataBoundItem).Row;
+            // Doesn't work with multiple rows selected, it's a logic that's not implemented.
+            dataRow = (selectedBookRow.DataBoundItem as DataRowView).Row;
             
             if(dataRow != null)
             {
@@ -125,7 +117,7 @@ namespace LibraryManager.Forms
 
                 mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Status"].Value = dataRow["Status"];
                 mainForm.dataGridView1.Rows[selectedBookRow.Index].Cells["Borrower"].Value = string.Empty;
-                Book tmpBook = mainForm.books.Where(x => x.Id == (int)dataRow["Id"]).FirstOrDefault();
+                Book? tmpBook = mainForm.books.Where(x => x.Id == (int)dataRow["Id"]).FirstOrDefault();
 
 
                 if (tmpBook != null)
@@ -136,10 +128,10 @@ namespace LibraryManager.Forms
                     {
                         mainForm.books[bookIdx].Borrower = null;
                         mainForm.books[bookIdx].Status = Book.BookStatus.Available;
-                    }
 
-                    mainForm.SaveBooksChanges();
-                    Close();
+                        mainForm.SaveBooksChanges();
+                        Close();
+                    }
 
                 }
                 else
@@ -147,8 +139,7 @@ namespace LibraryManager.Forms
                     Console.WriteLine("tmpBook was null");
                 }
 
-                
-
+      
             }
 
 

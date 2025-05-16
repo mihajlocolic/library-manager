@@ -1,17 +1,13 @@
 using System.Data;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
 using System.Text.Json;
-using System.Windows.Forms;
 using LibraryManager.Forms;
 using LibraryManager.Models;
+using Microsoft.Win32;
 
 namespace LibraryManager
 {
     public partial class MainForm : Form
     {
-
-
         public List<Book> books = new List<Book>();
         public List<Member> members = new List<Member>();
         public DataGridViewRow selectedBookRow;
@@ -20,8 +16,6 @@ namespace LibraryManager
         {
             InitializeComponent();
         }
-
-
 
         private void Form1_Load(object sender, EventArgs e)
         {
@@ -80,96 +74,115 @@ namespace LibraryManager
 
         private void dataGridView1_CellValueChanged_1(object sender, DataGridViewCellEventArgs e)
         {
-            UpdateBooks();
-
-        }
-
-        
-
-        private bool IsNullOrEmpty(Object cell)
-        {
-            if (cell == null)
+            int colIdx = e.ColumnIndex;
+            int rowIdx = e.RowIndex;
+            string colText = dataGridView1.Columns[colIdx].HeaderText;
+            if (string.IsNullOrEmpty(dataGridView1.Rows[rowIdx].Cells[colText].Value.ToString()))
             {
-                return true;
+                // Cancels any edit on the row if the value is empty string.
+                DataTable dt = dataGridView1.DataSource as DataTable;
+
+                if (dt != null )
+                {
+                    dt.Rows[rowIdx].CancelEdit();
+                } else
+                {
+                    Console.WriteLine("ERROR: DataTable was somehow null when edited cell was empty string.");
+                }
+                
+
             }
             else
             {
-                return false;
+                UpdateBook(rowIdx, colIdx);
             }
+               
         }
 
-        private void UpdateMembers()
+        private void UpdateMember(int rowIdx, int colIdx)
         {
-            string firstName;
-            string lastName;
-            string phoneNumber;
+            string colHeaderText = dataGridView2.Columns[colIdx].HeaderText;
+            string colValue = dataGridView2.Rows[rowIdx].Cells[colHeaderText].Value.ToString();
+
+            if (colHeaderText.Equals("FirstName"))
+            {
+                members[rowIdx].FirstName = colValue;
+            }
+            else if (colHeaderText.Equals("LastName"))
+            {
+                members[rowIdx].LastName = colValue;
+            }
+            else if (colHeaderText.Equals("Genre"))
+            {
+                members[rowIdx].PhoneNumber = colValue;
+            }
+
+            SaveMembersChanges();
+            
+        }
+
+
+        //private void UpdateMembers()
+        //{
+        //    string? firstName;
+        //    string? lastName;
+        //    string? phoneNumber;
             
 
-            for (int i = 1; i < (dataGridView2.Rows.Count - 1); i++)
-            {
+        //    for (int i = 1; i < (dataGridView2.Rows.Count - 1); i++)
+        //    {
 
-                firstName = IsNullOrEmpty(dataGridView2.Rows[i].Cells["FirstName"].Value) ? string.Empty : dataGridView2.Rows[i].Cells["FirstName"].Value.ToString();
-                lastName = IsNullOrEmpty(dataGridView2.Rows[i].Cells["LastName"].Value) ? string.Empty : dataGridView2.Rows[i].Cells["LastName"].Value.ToString();
-                phoneNumber = IsNullOrEmpty(dataGridView2.Rows[i].Cells["PhoneNumber"].Value) ? string.Empty : dataGridView2.Rows[i].Cells["PhoneNumber"].Value.ToString();
+        //        if (dataGridView2.Rows[i].Cells.Count > -1)
+        //        {
+        //            // If the value is empty, it resets back to what it was in members list.
+        //            firstName = IsNullOrEmpty(dataGridView2.Rows[i].Cells["FirstName"].Value) ? members[i].FirstName : dataGridView2.Rows[i].Cells["FirstName"].Value.ToString();
+        //            lastName = IsNullOrEmpty(dataGridView2.Rows[i].Cells["LastName"].Value) ? members[i].LastName : dataGridView2.Rows[i].Cells["LastName"].Value.ToString();
+        //            phoneNumber = IsNullOrEmpty(dataGridView2.Rows[i].Cells["PhoneNumber"].Value) ? members[i].PhoneNumber : dataGridView2.Rows[i].Cells["PhoneNumber"].Value.ToString();
 
 
-                members[i].FirstName = firstName;
-                members[i].LastName = lastName;
-                members[i].PhoneNumber = phoneNumber;
+        //            members[i].FirstName = firstName;
+        //            members[i].LastName = lastName;
+        //            members[i].PhoneNumber = phoneNumber;
+        //        }
+                
 
-            }
+        //    }
 
-            if (File.Exists("members.json"))
-            {
-                using (StreamWriter sw = new StreamWriter("members.json"))
-                {
-                    string json = JsonSerializer.Serialize(members);
-                    sw.WriteLine(json);
 
-                }
+        //    if (File.Exists("members.json"))
+        //    {
+        //        using (StreamWriter sw = new StreamWriter("members.json"))
+        //        {
+        //            string json = JsonSerializer.Serialize(members);
+        //            sw.WriteLine(json);
 
-            }
-            else
-            {
-                Console.WriteLine("Error: JSON file missing. Cannot save.");
-            }
-        }
+        //        }
 
-        public void UpdateBooks()
+        //    }
+        //    else
+        //    {
+        //        Console.WriteLine("Error: JSON file missing. Cannot save.");
+        //    }
+        //}
+
+        public void UpdateBook(int rowIdx, int colIdx)
         {
-            string title;
-            string author;
-            string genre;
-          
+            string colHeaderText = dataGridView1.Columns[colIdx].HeaderText;
+            string colValue = dataGridView1.Rows[rowIdx].Cells[colHeaderText].Value.ToString();
 
-            for (int i = 1; i < (dataGridView1.Rows.Count - 1); i++)
+            if (colHeaderText.Equals("Title"))
             {
-                title = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Title"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Title"].Value.ToString();
-                author = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Author"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Author"].Value.ToString();
-                genre = IsNullOrEmpty(dataGridView1.Rows[i].Cells["Genre"].Value) ? string.Empty : dataGridView1.Rows[i].Cells["Genre"].Value.ToString();
-               
-
-                books[i].Title = title;
-                books[i].Author = author;
-                books[i].Genre = genre;
-
-             
+                books[rowIdx].Title = colValue;
+            } else if (colHeaderText.Equals("Author"))
+            {
+                books[rowIdx].Author = colValue;
+            } else if (colHeaderText.Equals("Genre"))
+            {
+                books[rowIdx].Genre = colValue;
             }
 
-            if (File.Exists("books.json"))
-            {
-                using (StreamWriter sw = new StreamWriter("books.json"))
-                {
-                    string json = JsonSerializer.Serialize(books);
-                    sw.WriteLine(json);
-
-                }
-
-            }
-            else
-            {
-                Console.WriteLine("Error: JSON file missing. Cannot save.");
-            }
+            SaveBooksChanges();
+            
         }
 
 
@@ -238,14 +251,21 @@ namespace LibraryManager
 
         private void removeBookBtn_Click(object sender, EventArgs e)
         {
+            
+            Book tmpBook = selectedBookRow.DataBoundItem as Book;
 
-            Book tmpBook = (Book)selectedBookRow.DataBoundItem;
+            if (tmpBook != null) {
 
-            dataGridView1.Rows.RemoveAt(selectedBookRow.Index);
-            books.Remove(tmpBook);
+                dataGridView1.Rows.RemoveAt(selectedBookRow.Index);
+                books.Remove(tmpBook);
 
 
-            SaveBooksChanges();
+                SaveBooksChanges();
+            } else
+            {
+                Console.WriteLine("Cannot remove null book.");
+            }
+            
         }
 
         public void SaveBooksChanges()
@@ -307,7 +327,31 @@ namespace LibraryManager
 
         private void dataGridView2_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            UpdateMembers();
+            int colIdx = e.ColumnIndex;
+            int rowIdx = e.RowIndex;
+            string colText = dataGridView2.Columns[colIdx].HeaderText;
+            if (string.IsNullOrEmpty(dataGridView2.Rows[rowIdx].Cells[colText].Value.ToString()))
+            {
+                // Cancels any edit on the row if the value is empty string.
+                BindingSource bs = dataGridView2.DataSource as BindingSource;
+                DataRow dr = (DataRow) bs.Current;
+
+                if (dr != null)
+                {
+                    dr.CancelEdit();
+                }
+                else
+                {
+                    Console.WriteLine("ERROR: DataRow was somehow null when edited cell was empty string.");
+                }
+
+
+            }
+            else
+            {
+                UpdateMember(rowIdx, colIdx);
+            }
+            //UpdateMembers();
         }
 
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)

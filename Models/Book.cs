@@ -1,5 +1,9 @@
-﻿namespace LibraryManager.Models
+﻿using System.Security.Policy;
+
+namespace LibraryManager.Models
 {
+
+
     public class Book
     {
 
@@ -16,9 +20,9 @@
         public BookStatus Status {  get; set; }
         public Member? Borrower {  get; set; }
 
-        public Book() { }
-
-        public Book(long id, string title, string author, string genre, BookStatus status, Member borrower)
+       
+      
+        public Book(long id, string title, string author, string genre, BookStatus status, Member? borrower)
         {
             this.Id = id;
             this.Title = title;
