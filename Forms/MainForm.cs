@@ -87,7 +87,7 @@ namespace LibraryManager
                     dt.Rows[rowIdx].CancelEdit();
                 } else
                 {
-                    Console.WriteLine("ERROR: DataTable was somehow null when edited cell was empty string.");
+                    Console.WriteLine("ERROR: Book DataTable was somehow null when edited cell was empty string.");
                 }
                 
 
@@ -104,15 +104,15 @@ namespace LibraryManager
             string colHeaderText = dataGridView2.Columns[colIdx].HeaderText;
             string colValue = dataGridView2.Rows[rowIdx].Cells[colHeaderText].Value.ToString();
 
-            if (colHeaderText.Equals("FirstName"))
+            if (colHeaderText.Equals("First Name"))
             {
                 members[rowIdx].FirstName = colValue;
             }
-            else if (colHeaderText.Equals("LastName"))
+            else if (colHeaderText.Equals("Last Name"))
             {
                 members[rowIdx].LastName = colValue;
             }
-            else if (colHeaderText.Equals("Genre"))
+            else if (colHeaderText.Equals("Phone Number"))
             {
                 members[rowIdx].PhoneNumber = colValue;
             }
@@ -121,49 +121,6 @@ namespace LibraryManager
             
         }
 
-
-        //private void UpdateMembers()
-        //{
-        //    string? firstName;
-        //    string? lastName;
-        //    string? phoneNumber;
-            
-
-        //    for (int i = 1; i < (dataGridView2.Rows.Count - 1); i++)
-        //    {
-
-        //        if (dataGridView2.Rows[i].Cells.Count > -1)
-        //        {
-        //            // If the value is empty, it resets back to what it was in members list.
-        //            firstName = IsNullOrEmpty(dataGridView2.Rows[i].Cells["FirstName"].Value) ? members[i].FirstName : dataGridView2.Rows[i].Cells["FirstName"].Value.ToString();
-        //            lastName = IsNullOrEmpty(dataGridView2.Rows[i].Cells["LastName"].Value) ? members[i].LastName : dataGridView2.Rows[i].Cells["LastName"].Value.ToString();
-        //            phoneNumber = IsNullOrEmpty(dataGridView2.Rows[i].Cells["PhoneNumber"].Value) ? members[i].PhoneNumber : dataGridView2.Rows[i].Cells["PhoneNumber"].Value.ToString();
-
-
-        //            members[i].FirstName = firstName;
-        //            members[i].LastName = lastName;
-        //            members[i].PhoneNumber = phoneNumber;
-        //        }
-                
-
-        //    }
-
-
-        //    if (File.Exists("members.json"))
-        //    {
-        //        using (StreamWriter sw = new StreamWriter("members.json"))
-        //        {
-        //            string json = JsonSerializer.Serialize(members);
-        //            sw.WriteLine(json);
-
-        //        }
-
-        //    }
-        //    else
-        //    {
-        //        Console.WriteLine("Error: JSON file missing. Cannot save.");
-        //    }
-        //}
 
         public void UpdateBook(int rowIdx, int colIdx)
         {
@@ -190,7 +147,6 @@ namespace LibraryManager
         private void LoadDataOnGridView()
         {
 
-            //BindingSource booksSource = new BindingSource();
             DataTable booksTable = new DataTable();
 
             booksTable.Columns.Add("Id", typeof(int));
@@ -204,7 +160,7 @@ namespace LibraryManager
             string borrower; 
             foreach (Book b in books)
             {
-                //booksSource.Add(b);
+               
                 row = booksTable.NewRow();
                 row["Id"] = b.Id;
                 row["Title"] = b.Title;
@@ -222,42 +178,58 @@ namespace LibraryManager
                 
             }
 
-            //dataGridView1.DataSource = source;
+    
             dataGridView1.DataSource = booksTable;
             dataGridView1.AllowDrop = false;
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeRows = false;
+            dataGridView1.Columns[0].ReadOnly = true; // Id column
             dataGridView1.Columns[4].ReadOnly = true; // Status column
             dataGridView1.Columns[5].ReadOnly = true; // Borrower column
+
+
+            DataTable membersTable = new DataTable();
+            membersTable.Columns.Add("Id", typeof(int));
+            membersTable.Columns.Add("First Name", typeof(string));
+            membersTable.Columns.Add("Last Name", typeof(string));
+            membersTable.Columns.Add("Phone Number", typeof(string));
+
+            DataRow mRow;
+
             
-            
-            BindingSource membersSource = new BindingSource();
             foreach (Member m in members)
             {
-                membersSource.Add(m);
-                
+                mRow = membersTable.NewRow();
+                mRow["Id"] = m.Id;
+                mRow["First Name"] = m.FirstName;
+                mRow["Last Name"] = m.LastName;
+                mRow["Phone Number"] = m.PhoneNumber;
+
+                membersTable.Rows.Add(mRow);
+            
             }
-            dataGridView2.DataSource = membersSource;
+            dataGridView2.DataSource = membersTable;
             dataGridView2.AutoGenerateColumns = false;
-
-
             dataGridView2.AllowDrop = false;
             dataGridView2.AllowUserToAddRows = false;
             dataGridView2.AllowUserToDeleteRows = false;
             dataGridView2.AllowUserToResizeRows = false;
+            dataGridView2.Columns[0].ReadOnly = true;
 
         }
 
         private void removeBookBtn_Click(object sender, EventArgs e)
         {
-            
-            Book tmpBook = selectedBookRow.DataBoundItem as Book;
 
+            DataRow tmpBook = (selectedBookRow.DataBoundItem as DataRowView).Row;
+            
+            
             if (tmpBook != null) {
 
-                dataGridView1.Rows.RemoveAt(selectedBookRow.Index);
-                books.Remove(tmpBook);
+                int bookIdx = books.FindIndex(x => x.Id == (int) tmpBook["Id"]);
+                books.RemoveAt(bookIdx);
+                tmpBook.Delete();
 
 
                 SaveBooksChanges();
@@ -298,13 +270,18 @@ namespace LibraryManager
 
         private void removeMemberBtn_Click(object sender, EventArgs e)
         {
-            Member tmpMember = (Member)selectedBookRow.DataBoundItem;
-
-            dataGridView2.Rows.RemoveAt(selectedBookRow.Index);
-            members.Remove(tmpMember);
+            DataRow tmpMember = (selectedBookRow.DataBoundItem as DataRowView).Row;
 
 
-            SaveMembersChanges();
+            if (tmpMember != null) {
+                int memberIdx = members.FindIndex(x => x.Id == (int)tmpMember["Id"]);
+                members.RemoveAt(memberIdx);
+                tmpMember.Delete();
+                SaveMembersChanges();
+            } else
+            {
+                Console.WriteLine("Member that user tried to remove was null.");
+            }
 
         }
 
@@ -333,25 +310,22 @@ namespace LibraryManager
             if (string.IsNullOrEmpty(dataGridView2.Rows[rowIdx].Cells[colText].Value.ToString()))
             {
                 // Cancels any edit on the row if the value is empty string.
-                BindingSource bs = dataGridView2.DataSource as BindingSource;
-                DataRow dr = (DataRow) bs.Current;
+                DataTable dt = dataGridView2.DataSource as DataTable;
 
-                if (dr != null)
+                if (dt != null)
                 {
-                    dr.CancelEdit();
+                    dt.Rows[rowIdx].CancelEdit();
                 }
                 else
                 {
-                    Console.WriteLine("ERROR: DataRow was somehow null when edited cell was empty string.");
+                    Console.WriteLine("ERROR: Member DataTable was somehow null when edited cell was empty string.");
                 }
-
 
             }
             else
             {
                 UpdateMember(rowIdx, colIdx);
             }
-            //UpdateMembers();
         }
 
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
